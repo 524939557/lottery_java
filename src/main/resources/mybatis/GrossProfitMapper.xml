@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.homeene.dao.GrossProfitMapper" >
+  <resultMap id="BaseResultMap" type="com.homeene.model.GrossProfit" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="January" property="January" jdbcType="INTEGER" />
+    <result column="February" property="February" jdbcType="INTEGER" />
+    <result column="March" property="March" jdbcType="INTEGER" />
+    <result column="April" property="April" jdbcType="INTEGER" />
+    <result column="May" property="May" jdbcType="INTEGER" />
+    <result column="June" property="June" jdbcType="INTEGER" />
+    <result column="Junly" property="Junly" jdbcType="INTEGER" />
+    <result column="August" property="August" jdbcType="INTEGER" />
+    <result column="September" property="September" jdbcType="INTEGER" />
+    <result column="October" property="October" jdbcType="INTEGER" />
+    <result column="November" property="November" jdbcType="INTEGER" />
+    <result column="December" property="December" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gross_profit
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.homeene.model.GrossProfit" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+   insert into gross_profit (year, January,February,March,April,May,
+	June,Junly,August,September,October,November,December,    
+      type)
+    values (#{year,jdbcType=VARCHAR},#{January,jdbcType=INTEGER}, #{February,jdbcType=INTEGER}, #{March,jdbcType=INTEGER}, 
+    #{April,jdbcType=INTEGER},     #{May,jdbcType=INTEGER},     #{June,jdbcType=INTEGER},     #{Junly,jdbcType=INTEGER}, 
+    #{August,jdbcType=INTEGER},     #{September,jdbcType=INTEGER},     #{October,jdbcType=INTEGER},     #{November,jdbcType=INTEGER}, 
+      #{December,jdbcType=INTEGER},   #{type,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.homeene.model.GrossProfit" >
+    update gross_profit
+    set year = #{year,jdbcType=VARCHAR},
+      January = #{January,jdbcType=INTEGER},
+      February = #{February,jdbcType=INTEGER},
+      March = #{March,jdbcType=INTEGER},
+      April = #{April,jdbcType=INTEGER},
+      May = #{May,jdbcType=INTEGER},
+      June = #{June,jdbcType=INTEGER},
+      Junly = #{Junly,jdbcType=INTEGER},
+      August = #{August,jdbcType=INTEGER},
+      September = #{September,jdbcType=INTEGER},
+      October = #{October,jdbcType=INTEGER},
+      November = #{November,jdbcType=INTEGER},
+      December = #{December,jdbcType=INTEGER},
+               
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, year,, January,February,March,April,May,
+	June,Junly,August,September,October,November,December,  type
+    from gross_profit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, year,January,February,March,April,May,
+	June,Junly,August,September,October,November,December,   type
+    from gross_profit
+  </select>
+</mapper>
