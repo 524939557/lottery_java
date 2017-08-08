@@ -1,10 +1,11 @@
 package com.homeene.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.homeene.model.PersistentLogins;
 
-
+@Mapper
 public interface PersistentLoginsMapper {
     int deleteByPrimaryKey(Integer id);
 

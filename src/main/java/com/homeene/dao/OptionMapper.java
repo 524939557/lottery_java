@@ -3,6 +3,8 @@ package com.homeene.dao;
 import com.homeene.model.Option;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+@Mapper
 public interface OptionMapper {
     int deleteByPrimaryKey(Integer id);
 

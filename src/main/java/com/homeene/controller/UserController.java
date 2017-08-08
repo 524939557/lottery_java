@@ -11,5 +11,10 @@ public class UserController {
 
 	@Resource
 	private UserService userService;
-	
+
+	public String login(String token) {
+		return token;
+	}
+		
+		
 }
