@@ -32,8 +32,12 @@
     from option
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="selectAll"  resultMap="BaseResultMap">
     select id, question_id, option, name
-    from option
+    from option where question_id=#{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByQuestionId"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, question_id, option, name
+    from option where question_id=#{id,jdbcType=INTEGER}
   </select>
 </mapper>

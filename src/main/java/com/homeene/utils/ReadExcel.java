@@ -114,11 +114,7 @@ public class ReadExcel {
 				if (null != cell) {
 					if(cell.getCellType()==HSSFCell.CELL_TYPE_STRING) {
 						String name=cell.getStringCellValue();
-						switch(name) {
-							case "本年实际数":type="0";break;
-							case "上年同期数":type="1";break;
-							case "本年预算":type="2";break;
-						}
+						md.setType(name);
 					}else {
 						Integer money=(int) cell.getNumericCellValue();
 						switch (c) {
@@ -134,8 +130,8 @@ public class ReadExcel {
 						case 11:md.setOctober(money);break;
 						case 12:md.setNovember(money);break;
 						case 13:md.setDecember(money);break;
+						case 14:md.setTotal(money);break;
 						default:
-							md.setType(type);
 							LocalDate today = LocalDate.now(); 
 							md.setYear(today.getYear()+"");
 							break;

@@ -28,8 +28,13 @@
     from answer
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="selectByQuestion" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, question_id, answer_id
     from answer
+    where question_id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, question_id, answer_id
+    from answer where question_id=#{id,jdbcType=INTEGER}
   </select>
 </mapper>

@@ -10,7 +10,9 @@ public interface AnswerMapper {
 
     Answer selectByPrimaryKey(Integer id);
 
-    List<Answer> selectAll();
+    List<Answer> selectAll(int id);
 
     int updateByPrimaryKey(Answer record);
+    
+    Answer selectByQuestion(Integer id);
 }

@@ -17,6 +17,7 @@ public class GrossProfit {
 	private Integer October;
 	private Integer November;
 	private Integer December;
+	private Integer Total;
 	private String type;
 
 	public Integer getId() {
@@ -129,6 +130,15 @@ public class GrossProfit {
 
 	public void setDecember(Integer december) {
 		December = december;
+	}
+	
+
+	public Integer getTotal() {
+		return Total;
+	}
+
+	public void setTotal(Integer total) {
+		Total = total;
 	}
 
 	public String getType() {

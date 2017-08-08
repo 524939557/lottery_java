@@ -1,35 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.homeene.dao.AwardMapper">
-  <resultMap id="BaseResultMap" type="com.homeene.model.Award">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="probability" jdbcType="VARCHAR" property="probability" />
-    <result column="count" jdbcType="INTEGER" property="count" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.homeene.dao.AwardMapper" >
+  <resultMap id="BaseResultMap" type="com.homeene.model.Award" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="probability" property="probability" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from award
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.homeene.model.Award">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+  <insert id="insert" parameterType="com.homeene.model.Award" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into award (probability, count)
-    values (#{probability,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER})
+    insert into award (name, url, probability, 
+      count)
+    values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{probability,jdbcType=INTEGER}, 
+      #{count,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.homeene.model.Award">
+  <update id="updateByPrimaryKey" parameterType="com.homeene.model.Award" >
     update award
-    set probability = #{probability,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      probability = #{probability,jdbcType=INTEGER},
       count = #{count,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, probability, count
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, name, url, probability, count
     from award
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, probability, count
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, url, probability, count
     from award
   </select>
 </mapper>

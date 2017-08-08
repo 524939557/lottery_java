@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="./js/jquery.js"></script>
+<script src="./js/echarts.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script>
+var result=new Array();
+$(function(){
+	$.ajax({
+		url: "/bi/getGrossProfit",
+		type: "GET",
+		success: function(data){
+			result[0]=data[0];
+			result[1]=data[1];
+			result[2]=data[2];
+			var myChart = echarts.init(document.getElementById('main'));
+			option = {
+				    backgroundColor: "#404A59",
+				    color: ['#ffd285', '#ff733f', '#ec4863'],
+
+				    title: {
+				        text: '项目利润总额',
+				        left: '1%',
+				        top: '6%',
+				        textStyle: {
+				            color: '#fff'
+				        }
+				    },
+				    tooltip: {
+				        trigger: 'axis'
+				    },
+				    legend: {
+				        x: 300,
+				        top: '7%',
+				        textStyle: {
+				            color: '#ffd285',
+				        },
+				    },
+
+				    toolbox: {
+				        "show": false,
+				        feature: {
+				            saveAsImage: {}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        "axisLine": {
+				            lineStyle: {
+				                color: '#FF4500'
+				            }
+				        },
+				        "axisTick": {
+				            "show": false
+				        },
+				        axisLabel: {
+				            textStyle: {
+				                color: '#fff'
+				            }
+				        },
+				        boundaryGap: false,
+				        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+				    },
+				    yAxis: {
+				        "axisLine": {
+				            lineStyle: {
+				                color: '#fff'
+				            }
+				        },
+				        splitLine: {
+				            show: true,
+				            lineStyle: {
+				                color: '#fff'
+				            }
+				        },
+				        "axisTick": {
+				            "show": false
+				        },
+				        axisLabel: {
+				            textStyle: {
+				                color: '#fff'
+				            }
+				        },
+				        type: 'value'
+				    },
+				    series: [{
+				       // name: '本年实际数',
+				        name: result[0].type,
+				        smooth: true,
+				        type: 'line',
+				        symbolSize: 8,
+				        symbol: 'circle',
+				      //  data: [230, 256, 351, 322, 240, 0, 0, 0, 0, 0, 0, 0]
+				        data: [result[0].january, result[0].february, result[0].march, result[0].april, result[0].may,
+				        	result[0].june, result[0].junly, result[0].august, result[0].september, result[0].october,
+				        	result[0].november,	result[0].december]
+				    }, {
+				     //   name: '上年同期数',
+				        name: result[1].type,
+				        smooth: true,
+				        type: 'line',
+				        symbolSize: 8,
+				        symbol: 'circle',
+				       // data: [214, 236, 333, 304, 222, 0, 0, 0, 0, 0, 0, 0]
+				        data: [result[1].january, result[1].february, result[1].march, result[1].april, result[1].may,
+				        	result[1].june, result[1].junly, result[1].august, result[1].september, result[1].october,
+				        	result[1].november,	result[1].december]
+				    }, {
+				    //    name: '本年预算',
+				     	name: result[2].type,    
+				    	smooth: true,
+				        type: 'line',
+				        symbolSize: 8,
+				        symbol: 'circle',
+				     //   data: [93, 99, 94, 122, 92, 82, 113, 122, 85, 107, 151, 96]
+				        data: [result[2].january, result[2].february, result[2].march, result[2].april, result[2].may,
+				        	result[2].june, result[2].junly, result[2].august, result[2].september, result[2].october,
+				        	result[2].november,	result[2].december]
+				    }]
+
+				}
+			myChart.setOption(option);
+      }});
+})
+
+
+</script>
+</body>
+</html>
+

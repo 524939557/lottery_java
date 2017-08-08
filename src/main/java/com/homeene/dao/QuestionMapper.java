@@ -4,13 +4,16 @@ import com.homeene.model.Question;
 import java.util.List;
 
 public interface QuestionMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Question record);
+	int deleteByPrimaryKey(Integer id);
 
-    Question selectByPrimaryKey(Integer id);
+	int insert(Question record);
 
-    List<Question> selectAll();
+	Question selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKey(Question record);
+	List<Question> selectAll();
+
+	int updateByPrimaryKey(Question record);
+
+	Question selectOne();
 }

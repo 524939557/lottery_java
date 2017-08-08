@@ -17,7 +17,7 @@ public class BiService {
 	private GrossProfitMapper grossProfitMapper;
 
 	public List<GrossProfit> getGrossProfit(String year) {
-		return null;
+		return grossProfitMapper.selectAll();
 	}
 
 	public String uploadGrossProfit(MultipartFile file) {

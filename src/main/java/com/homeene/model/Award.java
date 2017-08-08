@@ -3,7 +3,11 @@ package com.homeene.model;
 public class Award {
     private Integer id;
 
-    private int probability;
+    private String name;
+
+    private String url;
+
+    private Integer probability;
 
     private Integer count;
 
@@ -15,11 +19,27 @@ public class Award {
         this.id = id;
     }
 
-    public int getProbability() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Integer getProbability() {
         return probability;
     }
 
-    public void setProbability(int probability) {
+    public void setProbability(Integer probability) {
         this.probability = probability;
     }
 

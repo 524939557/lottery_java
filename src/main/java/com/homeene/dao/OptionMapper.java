@@ -13,4 +13,6 @@ public interface OptionMapper {
     List<Option> selectAll();
 
     int updateByPrimaryKey(Option record);
+
+	List<Option> selectByQuestionId(int questionId);
 }
