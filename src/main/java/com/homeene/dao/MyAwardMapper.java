@@ -17,4 +17,6 @@ public interface MyAwardMapper {
     int updateByPrimaryKey(MyAward record);
 
 	List<MyAward> selectMyAward(String userId);
+	
+	MyAward selectByAwardId(Integer awardid,String userId);
 }

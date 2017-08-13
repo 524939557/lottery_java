@@ -18,4 +18,16 @@ public class MyAwardService {
 	public List<MyAward> selectMyAward(String userId){
 		return myAwardMapper.selectMyAward(userId);
 	}
+	
+	public int insert(MyAward myAward) {
+		return myAwardMapper.insert(myAward);
+	}
+	
+	public MyAward selectMyAwardById(Integer id,String userId) {
+		return myAwardMapper.selectByAwardId(id,userId);
+	}
+	
+	public int update(MyAward myAward) {
+		return myAwardMapper.updateByPrimaryKey(myAward);
+	}
 }

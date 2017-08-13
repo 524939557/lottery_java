@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.homeene.dao.TimesMapper" >
+  <resultMap id="BaseResultMap" type="com.homeene.model.Times" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="times" property="times" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from times
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.homeene.model.Times" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into times (times, user_id, create_time
+      )
+    values (#{times,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.homeene.model.Times" >
+    update times
+    set times = #{times,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, times, user_id, create_time
+    from times
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCreateTime" resultMap="BaseResultMap" >
+    select id, times, user_id, create_time
+    from times
+    where user_id = #{0} and create_time =#{1}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, times, user_id, create_time
+    from times
+  </select>
+</mapper>

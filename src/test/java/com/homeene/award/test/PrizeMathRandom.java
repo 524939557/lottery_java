@@ -1,10 +1,15 @@
-package com.homeene.utils;
+package com.homeene.award.test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
-import com.homeene.model.Award;
+import com.homeene.award.test.TestPrize.User;
+
+
+import com.homeene.award.test.TestPrize.Award;
 
 
 public class PrizeMathRandom {
@@ -25,10 +30,7 @@ public class PrizeMathRandom {
         for (Award award : awards) {
             //每个概率区间为奖品概率乘以1000（把三位小数转换为整）再乘以剩余奖品数量
         	//SELECT * from wx_address ORDER BY RAND() LIMIT 3
-        	if(award.getCount()<=0){
-        		award.setProbability(0);
-        	}
-    		totalPro += award.getProbability()* 1000;
+    		totalPro += award.getProbability() * 1000;
             proSection.add(totalPro);
         }
         //获取总的概率区间中的随机数
@@ -42,5 +44,28 @@ public class PrizeMathRandom {
         }
         return null;
     }
-
+    public static List<Award> probabilitychange(List<Award> awardList,List<User> myward){
+    	int sum=myward.size();
+    	float probality=sum*0.01f/(21-sum);
+    	float pro=(float)(Math.round(probality*1000))/1000;
+		
+    	List<Award> result = awardList.stream().map(award -> {
+    	  Integer awardId = award.getId();
+           boolean hasCards = myward
+                    .stream()
+                    .anyMatch(mward -> awardId.equals(mward.getAwardId()));
+            if (hasCards) {
+                award.setProbability(award.getProbability()-0.1f); 
+            }else {
+            	award.setProbability(award.getProbability()+pro); 
+            }
+            return award;
+        }).collect(Collectors.toList());
+		return result;
+	}
+    
+    public  static float formatFloat(float f) {
+		  return new  BigDecimal(Double.toString(f)).setScale(2,BigDecimal.ROUND_HALF_UP).floatValue();
+    }
+		
 }

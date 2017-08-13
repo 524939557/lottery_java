@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.homeene.service.TestServices;
+import com.homeene.utils.RedisUtil;
 
 @RestController
-public class TestController {
+public class TestController extends RedisUtil{
     @Resource
     private TestServices testServices;
 

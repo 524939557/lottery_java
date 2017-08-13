@@ -37,6 +37,11 @@
     from my_award
     where id = #{user_id,jdbcType=VARCHAR}
   </select>
+   <select id="selectByAwardId" resultMap="BaseResultMap">
+    select id, award_id, user_id, total
+    from my_award
+    where award_id = #{0} and user_id=#{1}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, award_id, user_id, total
     from my_award

@@ -6,15 +6,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.homeene.dao.OptionMapper;
-import com.homeene.model.Option;
+import com.homeene.dao.OptionsMapper;
+import com.homeene.model.Options;
 
 @Service
 public class OptionService {
 
 	@Resource
-	private OptionMapper optionMapper;
-	public List<Option> selectOptionByQuestionId(int questionId){
+	private OptionsMapper optionMapper;
+	public List<Options> selectOptionByQuestionId(int questionId){
 		return optionMapper.selectByQuestionId(questionId);
 	}
 }

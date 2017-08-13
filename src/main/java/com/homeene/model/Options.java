@@ -1,11 +1,11 @@
 package com.homeene.model;
 
-public class Option {
+public class Options {
     private Integer id;
 
     private Integer questionId;
 
-    private String option;
+    private String choices;
 
     private String name;
 
@@ -25,15 +25,16 @@ public class Option {
         this.questionId = questionId;
     }
 
-    public String getOption() {
-        return option;
-    }
+    
+	public String getChoices() {
+		return choices;
+	}
 
-    public void setOption(String option) {
-        this.option = option;
-    }
+	public void setChoices(String choices) {
+		this.choices = choices;
+	}
 
-    public String getName() {
+	public String getName() {
         return name;
     }
 

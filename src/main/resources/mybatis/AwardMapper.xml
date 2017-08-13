@@ -6,6 +6,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="probability" property="probability" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="count" property="count" jdbcType="INTEGER" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -16,9 +17,9 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into award (name, url, probability, 
+    insert into award (name, url, probability, content,
       count)
-    values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{probability,jdbcType=INTEGER}, 
+    values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{probability,jdbcType=INTEGER},  #{content,jdbcType=VARCHAR},
       #{count,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.Award" >
@@ -26,16 +27,17 @@
     set name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       probability = #{probability,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
       count = #{count,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, name, url, probability, count
+    select id, name, url, probability,content, count
     from award
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, name, url, probability, count
+    select id, name, url, probability,content, count
     from award
   </select>
 </mapper>

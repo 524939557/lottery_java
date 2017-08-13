@@ -7,11 +7,21 @@ public class Award {
 
     private String url;
 
-    private Integer probability;
+    private float probability;
+    
+    private String content;
 
     private Integer count;
 
-    public Integer getId() {
+    public Award(int i, String string, float f, int j) {
+		// TODO Auto-generated constructor stub
+    	this.id=i;
+    	this.name=string;
+    	this.probability=(int) f;
+    	this.count=j;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -35,15 +45,25 @@ public class Award {
         this.url = url;
     }
 
-    public Integer getProbability() {
+    public float getProbability() {
         return probability;
     }
 
-    public void setProbability(Integer probability) {
+    public void setProbability(float probability) {
         this.probability = probability;
     }
 
-    public Integer getCount() {
+    
+	public String getContent() {
+		return content;
+	}
+
+	
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Integer getCount() {
         return count;
     }
 
