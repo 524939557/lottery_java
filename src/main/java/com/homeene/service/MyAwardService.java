@@ -1,5 +1,6 @@
 package com.homeene.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -23,11 +24,16 @@ public class MyAwardService {
 		return myAwardMapper.insert(myAward);
 	}
 	
-	public MyAward selectMyAwardById(Integer id,String userId) {
-		return myAwardMapper.selectByAwardId(id,userId);
+	public MyAward selectMyAwardById(HashMap<String, Object> map) {
+		return myAwardMapper.selectByAwardId(map);
 	}
 	
 	public int update(MyAward myAward) {
 		return myAwardMapper.updateByPrimaryKey(myAward);
+	}
+
+	public int selectMyCollect(String userid) {
+		// TODO Auto-generated method stub
+		return myAwardMapper.selectMyCollect(userid);
 	}
 }

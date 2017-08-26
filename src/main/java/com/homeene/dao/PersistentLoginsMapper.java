@@ -1,5 +1,7 @@
 package com.homeene.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -7,19 +9,21 @@ import com.homeene.model.PersistentLogins;
 
 @Mapper
 public interface PersistentLoginsMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(PersistentLogins record);
+	int deleteByPrimaryKey(Integer id);
 
-    int insertSelective(PersistentLogins record);
+	int insert(PersistentLogins record);
 
-    PersistentLogins selectByPrimaryKey(Integer id);
+	int insertSelective(PersistentLogins record);
 
-    int updateByPrimaryKeySelective(PersistentLogins record);
+	PersistentLogins selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKey(PersistentLogins record);
-    
-    PersistentLogins selectByUsernameAndSeries(
-			@Param("mobile") String mobile, @Param("series") String series);
-	PersistentLogins selectByUsername(@Param("mobile") String mobile);
+	int updateByPrimaryKeySelective(PersistentLogins record);
+
+	int updateByPrimaryKey(PersistentLogins record);
+
+	PersistentLogins selectByUsernameAndSeries(HashMap<String, String> map);
+
+	PersistentLogins selectByUserId(String userId);
+
 }

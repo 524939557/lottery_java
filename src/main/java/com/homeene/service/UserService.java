@@ -1,5 +1,7 @@
 package com.homeene.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -16,7 +18,20 @@ public class UserService {
 	public int insert(User user) {
 		return userMapper.insert(user);
 	}
-	public User selectByUserId(String string) {
-		return userMapper.selectByUserId(string);
+
+	public User selectByUserId(String userId) {
+		return userMapper.selectByUserId(userId);
+	}
+
+	public int update(User user) {
+		return userMapper.updateByPrimaryKey(user);
+	}
+
+	public List<User> selectByCollect(int collect) {
+		return userMapper.selectByCollect(collect);
+	}
+
+	public User selectLotteryByUserId(String userId) {
+		return userMapper.selectLotteryByUserId(userId);
 	}
 }

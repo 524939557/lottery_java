@@ -1,10 +1,9 @@
 package com.homeene.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,43 +18,66 @@ import com.homeene.model.User;
 import com.homeene.service.AwardService;
 import com.homeene.service.CookieService;
 import com.homeene.service.MyAwardService;
+import com.homeene.service.UserService;
 
 @RestController
+@RequestMapping(value = "/lottery")
 public class AwardController {
 
 	@Resource
 	private MyAwardService myAwardService;
-	
+
 	@Resource
 	private AwardService awardService;
-	
+
 	@Resource
 	private CookieService cookieservice;
-	
-	@RequestMapping(value="/myAward/{userId}",method=RequestMethod.GET)
-	public List<MyAward> selectMyAward(@PathVariable String userId){
-		
+
+	@Resource
+	private UserService userservice;
+
+	@RequestMapping(value = "/myCard/{userId}", method = RequestMethod.GET)
+	public List<MyAward> selectMyAward(@PathVariable String userId) {
+
 		return myAwardService.selectMyAward(userId);
 	}
-	
+
+	@RequestMapping(value = "/getCard", method = RequestMethod.GET)
 	public Award getAward(HttpServletRequest req) throws UnsupportedEncodingException {
-		
-		User u=cookieservice.cookieToUser(req);
-		List<Award> awardList=awardService.getAward();
-		List<MyAward> myward=myAwardService.selectMyAward(u.getUserid());
-		Award award= awardService.lotter(awardList, myward);
-		MyAward myAward=myAwardService.selectMyAwardById(award.getId(),u.getUserid());
-		if(myAward==null) {
-			myAward=new MyAward();
+
+		User u = cookieservice.cookieToUser(req);
+		List<Award> awardList = awardService.getAward();
+		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
+		Award award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
+		HashMap<String,Object> map=new HashMap<>();
+		map.put("awardId", award.getId());
+		map.put("userId", u.getUserid());
+		MyAward myAward = myAwardService.selectMyAwardById(map);// 查看该卡是否拥有
+		if (myAward == null)
+		{
+			myAward = new MyAward();
 			myAward.setAwardId(award.getId());
 			myAward.setUserId(u.getUserid());
 			myAward.setTotal(1);
 			myAwardService.insert(myAward);
-		}else {
-			myAward.setTotal(myAward.getTotal()+1);
+		} else
+		{
+			myAward.setTotal(myAward.getTotal() + 1);
 			myAwardService.update(myAward);
 		}
-		//select *from (SELECT user_id,count(*) counts from my_award GROUP BY user_id) t where t.counts>3;
+		Integer total = myAwardService.selectMyCollect(u.getUserid());// 是否集齐21张
+		if (total == 21)
+		{
+			u.setCollect(1);
+			u.setCollectTime(new Date());
+			userservice.update(u);
+		}
 		return award;
+	}
+
+	@RequestMapping(value = "/mylottery", method = RequestMethod.GET)
+	public User getLotteryUser(HttpServletRequest req) throws UnsupportedEncodingException {
+		User u = cookieservice.cookieToUser(req);
+		return userservice.selectLotteryByUserId(u.getUserid());
 	}
 }

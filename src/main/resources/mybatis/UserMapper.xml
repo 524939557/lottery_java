@@ -9,6 +9,8 @@
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="active" property="active" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+     <result column="collect" property="collect" jdbcType="INTEGER" />
+    <result column="collect_time" property="collectTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
@@ -19,10 +21,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user (userid, name, tel, 
-      mobile, active, create_time
+      mobile, active, create_time,collect,collect_time
       )
     values (#{userid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{active,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      , #{collect,jdbcType=INTEGER}, #{collectTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.User" >
@@ -33,20 +36,32 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       active = #{active,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
+      collect = #{collect,jdbcType=INTEGER},
+      collect_time = #{collectTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, userid, name, tel, mobile, active, create_time
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, userid, name, tel, mobile, active, create_time
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
     from user
     where userid = #{userid,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, userid, name, tel, mobile, active, create_time
+  <select id="selectLotteryByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
     from user
+    where userid = #{userid,jdbcType=VARCHAR} and collect=1
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
+    from user
+  </select>
+  <select id="selectByCollect" resultMap="BaseResultMap" parameterType="java.lang.Integer"  >
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
+    from user 
+    where collect = #{collect,jdbcType=INTEGER} order by collect_time
   </select>
 </mapper>

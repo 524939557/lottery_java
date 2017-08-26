@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.homeene.dao.PersistentLoginsMapper">
+	<resultMap id="BaseResultMap" type="com.homeene.model.PersistentLogins">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="series" property="series" jdbcType="VARCHAR" />
+		<result column="token" property="token" jdbcType="VARCHAR" />
+		<result column="validTime" property="validtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from persistent_logins
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.homeene.model.PersistentLogins">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into persistent_logins (username, series, token,
+		validTime)
+		values (#{username,jdbcType=VARCHAR}, #{series,jdbcType=VARCHAR},
+		#{token,jdbcType=VARCHAR},
+		#{validtime,jdbcType=TIMESTAMP})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.homeene.model.PersistentLogins">
+		update persistent_logins
+		set username = #{username,jdbcType=VARCHAR},
+		series = #{series,jdbcType=VARCHAR},
+		token = #{token,jdbcType=VARCHAR},
+		validTime = #{validtime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByUserId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select id, username, series, token, validTime
+		from persistent_logins
+		where username = #{username,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select id, username, series, token, validTime
+		from persistent_logins
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByUsernameAndSeries" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select id, username, series, token, validTime
+		from persistent_logins
+		where username = #{userId} and series=#{series}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, username, series, token, validTime
+		from persistent_logins
+	</select>
+</mapper>

@@ -16,6 +16,10 @@ public class User {
     private Boolean active;
 
     private Date createTime;
+    
+    private int collect;
+    
+    private Date collectTime;
 
     public Integer getId() {
         return id;
@@ -72,4 +76,26 @@ public class User {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	
+	public int getCollect() {
+		return collect;
+	}
+
+	
+	public void setCollect(int collect) {
+		this.collect = collect;
+	}
+
+	
+	public Date getCollectTime() {
+		return collectTime;
+	}
+
+	
+	public void setCollectTime(Date collectTime) {
+		this.collectTime = collectTime;
+	}
+    
+    
 }

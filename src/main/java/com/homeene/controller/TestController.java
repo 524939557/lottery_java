@@ -3,8 +3,10 @@ package com.homeene.controller;
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.homeene.service.AwardService;
 import com.homeene.service.TestServices;
 import com.homeene.utils.RedisUtil;
 
@@ -12,8 +14,11 @@ import com.homeene.utils.RedisUtil;
 public class TestController extends RedisUtil{
     @Resource
     private TestServices testServices;
-
-    @RequestMapping(value = "/show")
+    
+    @Resource
+    private AwardService awardService;
+    
+    @RequestMapping(value = "/show",method =RequestMethod.GET)
     public String show() {
         return testServices.show();
     }
@@ -23,4 +28,16 @@ public class TestController extends RedisUtil{
         return testServices.showDao(age);
     }
     
+    @RequestMapping("/encache")
+    public String EhcacheTest(){
+     System.out.println("第一次");
+     System.out.println(awardService.getAward());
+     System.out.println("第二次");
+     System.out.println(awardService.getAward());
+     return "success";
+    }
+    
+    public static void main(String[] args) {
+		new TestController().EhcacheTest();
+	}
 }

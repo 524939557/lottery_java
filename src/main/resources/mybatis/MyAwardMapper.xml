@@ -37,11 +37,18 @@
     from my_award
     where id = #{user_id,jdbcType=VARCHAR}
   </select>
-   <select id="selectByAwardId" resultMap="BaseResultMap">
+   <select id="selectByAwardId" resultMap="BaseResultMap" parameterType="java.util.Map">
     select id, award_id, user_id, total
     from my_award
-    where award_id = #{0} and user_id=#{1}
+    where award_id = #{awardId} and user_id=#{userId}
   </select>
+  <select id="selectMyCollect" resultType="java.lang.Integer" parameterType="java.lang.String"  >
+	select t.counts
+	from
+		( select count(*) counts from my_award 	where award_id !=22 group by user_id
+		) t
+	where user_id = #{user_id,jdbcType=VARCHAR}
+  </select> 
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, award_id, user_id, total
     from my_award
