@@ -1,6 +1,5 @@
 package com.homeene;
 
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -11,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import com.homeene.interceptor.UserInterceptor;
 @EnableWebMvc
 @Configuration
-@EnableCaching
 public class MyWebAppConfigure extends WebMvcConfigurerAdapter {
 
 	@Bean
