@@ -1,6 +1,7 @@
 package com.homeene.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +70,8 @@ public class SampleController {
 	@RequestMapping(value = "/selectOne", method = RequestMethod.GET)
 	public Map<String, Object> selectOne(HttpServletRequest req,HttpServletResponse rsp) throws UnsupportedEncodingException {
 		User u=cookieService.cookieToUser(req);
+		//User u=userservice.selectByUserId("0438175833697878");
+		System.out.println("select One"+u.getUserid());
 		if(u!=null) {
 			if(this.checkTimes(u.getUserid())) {
 				Question q = questionService.selectone();
@@ -76,6 +79,7 @@ public class SampleController {
 				Map<String,Object> map=new HashMap<>();
 				map.put("question", q);
 				map.put("options",option);
+				System.out.println("select One map "+map.toString());
 				return map;
 			}else {
 				rsp.setStatus(HttpStatus.SC_NOT_ACCEPTABLE);//over 3times today
@@ -90,6 +94,7 @@ public class SampleController {
 		Integer answerId=map.get("answerId");
 		Answer answer=answerService.selectByQuestion(questionId);
 		User u=cookieService.cookieToUser(req);
+		this.updateTimes(u.getUserid());//添加次数
 		if(answerId==answer.getId()) {
 			return this.getAward(u);
 		}else {
@@ -105,6 +110,8 @@ public class SampleController {
 		List<Award> awardList = awardService.getAward();
 		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
 		Award award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
+		award.setIssue(award.getIssue()+1);
+		awardService.updateAward(award);//修改卡片发放次数
 		HashMap<String,Object> map=new HashMap<>();
 		map.put("awardId", award.getId());
 		map.put("userId", u.getUserid());
@@ -133,22 +140,34 @@ public class SampleController {
 
 	
 	public boolean checkTimes(String userId) {
-		Times t=timesService.selectByCreateTime(userId,new Date());
-		if(t==null) {
-			t=new Times();
-			t.setCreateTime(new Date());
-			t.setTimes(1);
-			t.setUserId(userId);
-			timesService.insert(t);
-		}else {
-			int times=t.getTimes();
-			if(times>5) {
-				return false;
-			}else {
-				t.setTimes(times+1);
-				timesService.update(t);
-			}
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("userId", userId);
+		LocalDate date=LocalDate.now();
+		map.put("date",date.toString());
+		System.out.println("check times"+map.toString());
+		Times t=timesService.selectByCreateTime(map);
+		if(t!=null&&t.getTimes()>5) {
+			return false;
 		}
 		return true;
 	}
+	
+	 public void updateTimes(String userId) {
+		 Map<String,String> map=new HashMap<String,String>();
+			map.put("userId", userId);
+			LocalDate date=LocalDate.now();
+			map.put("date",date.toString());
+			System.out.println("update times"+map.toString());
+			Times times=timesService.selectByCreateTime(map);
+			if(times==null) {
+				times=new Times();
+				times.setDate(date.toString());
+				times.setTimes(1);
+				times.setUserId(userId);
+				timesService.insert(times);
+			}else {
+				times.setTimes(times.getTimes()+1);
+				timesService.update(times);
+			}
+	 }
 }	

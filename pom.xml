@@ -7,8 +7,7 @@
 	<artifactId>award</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-
-	<name>award</name>
+	<name>award</name> 
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -38,14 +37,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
 		 <dependency>
 		    <groupId>org.springframework</groupId>
 		     <artifactId>spring-context-support</artifactId>
 		</dependency>
-		<dependency>
-		         <groupId>net.sf.ehcache</groupId>
-		      <artifactId>ehcache</artifactId>
-		</dependency>  
+	 <!--开启 cache 缓存-->
+	      <dependency>
+	          <groupId>org.springframework.boot</groupId>
+	          <artifactId>spring-boot-starter-cache</artifactId>
+	      </dependency>
+	      <!-- ehcache 缓存 -->
+	      <dependency>
+	          <groupId>net.sf.ehcache</groupId>
+	          <artifactId>ehcache</artifactId>
+	      </dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

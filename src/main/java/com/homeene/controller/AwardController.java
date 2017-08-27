@@ -41,14 +41,15 @@ public class AwardController {
 
 		return myAwardService.selectMyAward(userId);
 	}
-
-	@RequestMapping(value = "/getCard", method = RequestMethod.GET)
+	//抽卡接口从抽题 请求
 	public Award getAward(HttpServletRequest req) throws UnsupportedEncodingException {
 
 		User u = cookieservice.cookieToUser(req);
 		List<Award> awardList = awardService.getAward();
 		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
 		Award award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
+		award.setIssue(award.getIssue()+1);
+		awardService.updateAward(award);//修改次数
 		HashMap<String,Object> map=new HashMap<>();
 		map.put("awardId", award.getId());
 		map.put("userId", u.getUserid());

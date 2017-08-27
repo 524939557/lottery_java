@@ -1,17 +1,22 @@
 package com.homeene.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dingtalk.open.client.api.model.corp.CorpUserBaseInfo;
+import com.dingtalk.open.client.api.model.corp.CorpUserDetail;
 import com.homeene.alibaba.auth.AuthHelper;
 import com.homeene.alibaba.demo.Env;
+import com.homeene.alibaba.user.UserHelper;
 import com.homeene.model.User;
 import com.homeene.service.PersistentLoginService;
 import com.homeene.service.UserService;
@@ -59,28 +64,26 @@ public class DingController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
-	public String getUser(HttpServletRequest req, HttpServletResponse rsp) throws Exception {
-		// String accessToken = AuthHelper.getAccessToken();
-		// System.out.println(code.get("code"));
-		// CorpUserBaseInfo userBaseInfo = UserHelper.getUserInfo(accessToken,
-		// code.get("code"));
-		// User user = userService.selectByUserId(userBaseInfo.getUserid());
-		// if (user == null)
-		// {
-		// user = new User();
-		// CorpUserDetail userDetail = UserHelper.getUser(accessToken,
-		// userBaseInfo.getUserid());
-		// user.setActive(userDetail.getActive());
-		// user.setCreateTime(new Date());
-		// user.setMobile(userDetail.getMobile());
-		// user.setName(userDetail.getName());
-		// user.setTel(userDetail.getTel());
-		// user.setUserid(userDetail.getUserid());
-		// userService.insert(user);
-		// }@RequestBody Map<String, String> code,
-		User u = userService.selectByUserId("0438175833697878");
-		String cookieValue = persistentLoginService.addCookie(u);
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
+	public String getUser(@RequestBody Map<String, String> code, HttpServletRequest req, HttpServletResponse rsp)
+			throws Exception {
+		String accessToken = AuthHelper.getAccessToken();
+		System.out.println(code.get("code"));
+		CorpUserBaseInfo userBaseInfo = UserHelper.getUserInfo(accessToken, code.get("code"));
+		User user = userService.selectByUserId(userBaseInfo.getUserid());
+		if (user == null)
+		{
+			user = new User();
+			CorpUserDetail userDetail = UserHelper.getUser(accessToken, userBaseInfo.getUserid());
+			user.setActive(userDetail.getActive());
+			user.setCreateTime(new Date());
+			user.setMobile(userDetail.getMobile());
+			user.setName(userDetail.getName());
+			user.setTel(userDetail.getTel());
+			user.setUserid(userDetail.getUserid());
+			userService.insert(user);
+		}
+		String cookieValue = persistentLoginService.addCookie(user);
 		return cookieValue;
 	}
 
@@ -95,4 +98,9 @@ public class DingController {
 		}
 		// System.out.println(sb.toString());
 	}
+	  @RequestMapping(value = "/show",method =RequestMethod.GET)
+	    public String show() {
+	        return "hello world";
+	  }
+
 }

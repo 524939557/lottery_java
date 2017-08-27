@@ -1,12 +1,14 @@
 package com.homeene;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.ComponentScan;
-@EnableAutoConfiguration//开启自动配置
-@ComponentScan//开启bean扫描
+/**
+ * @EnableAutoConfiguration//开启自动配置
+   @ComponentScan//开启bean扫描
+   @Controller//三个注释==springbootapplication
+ * @author wus
+ *
+ */
 @SpringBootApplication
 public class AwardApplication {
 

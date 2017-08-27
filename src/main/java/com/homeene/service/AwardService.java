@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.homeene.dao.AwardMapper;
@@ -15,17 +13,18 @@ import com.homeene.model.MyAward;
 import com.homeene.utils.PrizeMathRandom;
 
 @Service
-@CacheConfig(cacheNames = "award")
 public class AwardService{
 
 	@Resource
 	private AwardMapper awardMapper;
 	
-	@Cacheable  
 	public List<Award> getAward(){
 		return awardMapper.selectAll();
 	}
 	
+	public int updateAward(Award award) {
+		return awardMapper.updateByPrimaryKey(award);
+	}
 	public Award lotter(List<Award> awardList,List<MyAward> myward) {
 		List<Award> result = awardList.stream().map(award -> {
     		Integer awardId = award.getId();

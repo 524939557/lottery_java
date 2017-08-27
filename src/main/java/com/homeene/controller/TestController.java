@@ -1,5 +1,7 @@
 package com.homeene.controller;
 
+import java.time.LocalDate;
+
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +40,7 @@ public class TestController extends RedisUtil{
     }
     
     public static void main(String[] args) {
-		new TestController().EhcacheTest();
+    	LocalDate date=LocalDate.now();
+    	System.out.println(date.toString());
 	}
 }

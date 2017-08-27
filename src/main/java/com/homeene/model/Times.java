@@ -9,7 +9,7 @@ public class Times {
 
     private String userId;
 
-    private Date createTime;
+    private String date;
 
     public Integer getId() {
         return id;
@@ -35,11 +35,16 @@ public class Times {
         this.userId = userId;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	
+	public String getDate() {
+		return date;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	
+	public void setDate(String date) {
+		this.date = date;
+	}
+    
+    
+
 }

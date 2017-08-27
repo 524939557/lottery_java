@@ -19,7 +19,7 @@ public class MyWebAppConfigure extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		// TODO Auto-generated method stub
+//		 TODO Auto-generated method stub
 		registry.addInterceptor(userInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/*");
 		super.addInterceptors(registry);
 		
@@ -34,5 +34,5 @@ public class MyWebAppConfigure extends WebMvcConfigurerAdapter {
           .allowedMethods("GET", "POST", "DELETE", "PUT")  
           .maxAge(3600);  
 	}
-
+	
 }

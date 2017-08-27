@@ -29,6 +29,7 @@ public class UserInterceptor implements HandlerInterceptor {
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
 		 String value=request.getHeader("Authorization");
+		 System.out.println("Interceptor Authorization:before "+value+"-----------------");
 		if (value != null)
 		{
 			String cookieValue = EncryptionUtil.base64Decode(value);
@@ -68,7 +69,7 @@ public class UserInterceptor implements HandlerInterceptor {
 								String newCookieValue = EncryptionUtil
 										.base64Encode(u.getUserid() + ":" + uuidNewString);
 								response.setHeader("token", newCookieValue);
-
+								System.out.println("Interceptor Authorization:after "+newCookieValue+"-----------------");
 								pLogins.setSeries(uuidNewString);
 								persistentLoginsService.updateByPrimaryKey(pLogins);
 
