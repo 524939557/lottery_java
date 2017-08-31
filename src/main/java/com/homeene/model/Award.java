@@ -12,6 +12,8 @@ public class Award {
     private String content;
 
     private Integer count;
+    
+    private Integer issue;
 
     public Award(int i, String string, float f, int j) {
 		// TODO Auto-generated constructor stub
@@ -19,6 +21,9 @@ public class Award {
     	this.name=string;
     	this.probability=(int) f;
     	this.count=j;
+	}
+
+	public Award() {
 	}
 
 	public Integer getId() {
@@ -70,4 +75,16 @@ public class Award {
     public void setCount(Integer count) {
         this.count = count;
     }
+
+	
+	public Integer getIssue() {
+		return issue;
+	}
+
+	
+	public void setIssue(Integer issue) {
+		this.issue = issue;
+	}
+    
+    
 }

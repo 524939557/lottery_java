@@ -35,7 +35,7 @@
   <select id="selectMyAward" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select id, award_id, user_id, total
     from my_award
-    where id = #{user_id,jdbcType=VARCHAR}
+    where user_id = #{user_id,jdbcType=VARCHAR} and  award_id !=22
   </select>
    <select id="selectByAwardId" resultMap="BaseResultMap" parameterType="java.util.Map">
     select id, award_id, user_id, total
@@ -45,7 +45,7 @@
   <select id="selectMyCollect" resultType="java.lang.Integer" parameterType="java.lang.String"  >
 	select t.counts
 	from
-		( select count(*) counts from my_award 	where award_id !=22 group by user_id
+		( select count(*) counts,user_id from my_award 	where award_id !=22 group by user_id
 		) t
 	where user_id = #{user_id,jdbcType=VARCHAR}
   </select> 

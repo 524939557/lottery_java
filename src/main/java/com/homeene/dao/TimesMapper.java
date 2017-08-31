@@ -4,6 +4,7 @@ import com.homeene.model.Times;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 @Mapper
@@ -18,5 +19,5 @@ public interface TimesMapper {
 
     int updateByPrimaryKey(Times record);
 
-	Times selectByCreateTime(String userid, Date time);
+	Times selectByCreateTime(Map<String,String> map);
 }

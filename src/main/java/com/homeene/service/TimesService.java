@@ -1,6 +1,7 @@
 package com.homeene.service;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -20,7 +21,7 @@ public class TimesService {
 	public int update(Times t) {
 		return timesMapper.updateByPrimaryKey(t);
 	} 
-	public Times selectByCreateTime(String userid,Date time) {
-		return timesMapper.selectByCreateTime(userid,time);
+	public Times selectByCreateTime(Map<String,String> map) {
+		return timesMapper.selectByCreateTime(map);
 	}
 }

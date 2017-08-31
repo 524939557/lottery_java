@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="times" property="times" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from times
@@ -15,30 +15,30 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into times (times, user_id, create_time
+    insert into times (times, user_id, date
       )
-    values (#{times,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+    values (#{times,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.Times" >
     update times
     set times = #{times,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      date = #{date,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, times, user_id, create_time
+    select id, times, user_id, date
     from times
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByCreateTime" resultMap="BaseResultMap" >
-    select id, times, user_id, create_time
+    select id, times, user_id, date
     from times
-    where user_id = #{0} and create_time =#{1}
+    where user_id = #{userId} and date =#{date}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, times, user_id, create_time
+    select id, times, user_id, date
     from times
   </select>
 </mapper>

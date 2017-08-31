@@ -31,18 +31,7 @@ public class CookieService  {
 			String[] cValues = cookieValue.split(":");
 			if (cValues.length == 2) {
 				String userId = cValues[0]; //
-				String uuid = cValues[1]; //ֵ
-				PersistentLogins pLogins = persistentLoginsServiceImpl.selectByUsernameAndSeries(userId,
-						uuid);
-				if (pLogins != null) {
-					Date savedValidtime = pLogins.getValidtime();
-					Date currentTime = new Date();
-					if (currentTime.before(savedValidtime)) {
-						return userService.selectByUserId(userId);
-					} else { // 
-						persistentLoginsServiceImpl.deleteByPrimaryKey(pLogins.getId());
-					}
-				}
+				return userService.selectByUserId(userId);
 			}
 		}
 		return null;

@@ -17,5 +17,5 @@ public interface QuestionMapper {
 
 	int updateByPrimaryKey(Question record);
 
-	Question selectOne();
+	Question selectOne(Integer type);
 }
