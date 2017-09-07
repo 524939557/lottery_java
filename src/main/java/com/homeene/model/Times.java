@@ -10,6 +10,8 @@ public class Times {
     private String userId;
 
     private String date;
+    
+    private Integer share;
 
     public Integer getId() {
         return id;
@@ -43,6 +45,16 @@ public class Times {
 	
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	
+	public Integer getShare() {
+		return share;
+	}
+
+	
+	public void setShare(Integer share) {
+		this.share = share;
 	}
     
     

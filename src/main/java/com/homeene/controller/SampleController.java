@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
-import org.apache.poi.hssf.record.UserSViewBegin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,7 +71,6 @@ public class SampleController {
 	public Map<String, Object> selectOne(HttpServletRequest req, HttpServletResponse rsp)
 			throws UnsupportedEncodingException {
 		User u = cookieService.cookieToUser(req);
-		// User u=userservice.selectByUserId("0438175833697878");
 		System.out.println("select One" + u.getUserid());
 		if (u != null)
 		{
@@ -98,13 +96,10 @@ public class SampleController {
 			throws UnsupportedEncodingException {
 		Integer questionId = map.get("questionId");
 		Integer answerId = map.get("answerId");
-		// Integer questionId=50;
-		// Integer answerId=200;
 		System.out.println("---------------checkAnswer questionId ：" + questionId);
 		System.out.println("---------------checkAnswer answerId：" + answerId);
 		Answer answer = answerService.selectByQuestion(questionId);
 		User u = cookieService.cookieToUser(req);
-		// User u=userservice.selectByUserId("0438175833697878");
 		this.updateTimes(u);// 添加次数
 		if (answerId == answer.getAnswerId() || answerId.equals(answer.getAnswerId()))
 		{
@@ -117,9 +112,43 @@ public class SampleController {
 
 	}
 
+	/**
+	 * 分享得卡片
+	 * 
+	 * @param req
+	 * @param rsp
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping(value = "shareCard", method = RequestMethod.GET)
+	public Award shareCard(HttpServletRequest req, HttpServletResponse rsp) throws UnsupportedEncodingException {
+		User u = cookieService.cookieToUser(req);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", u.getUserid());
+		LocalDate date = LocalDate.now();
+		map.put("date", date.toString());
+		System.out.println("shareCard times" + map.toString());
+		Times times = timesService.selectByCreateTime(map);
+		if (times.getShare() == 0)
+		{
+			times.setShare(1);
+			timesService.update(times);
+			return this.getAward(u);
+		} else
+		{
+			rsp.setStatus(HttpStatus.SC_NOT_ACCEPTABLE);// over 3times today
+		}
+		return null;
+	}
+
 	public Award getAward(User u) throws UnsupportedEncodingException {
 
 		List<Award> awardList = awardService.getAward();
+		List<User> collectList = userservice.selectByCollect(1);
+		if (collectList.size() > 150)
+		{
+			awardList.get(0).setProbability(0);
+		}
 		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
 		Award award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
 		System.out.println("我抽到的卡片" + award.getId());
@@ -159,9 +188,10 @@ public class SampleController {
 		map.put("date", date.toString());
 		System.out.println("check times" + map.toString());
 		Times t = timesService.selectByCreateTime(map);
-		// if(t!=null&&t.getTimes()>5) {
-		// return false;
-		// }
+		if (t != null && t.getTimes() > 5)
+		{// 次数超五次
+			return false;
+		}
 		return true;
 	}
 

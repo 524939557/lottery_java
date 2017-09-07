@@ -28,6 +28,8 @@ public class User {
 
 	private float money;
 
+	private Integer changeStatus;
+
 	public Integer getId() {
 		return id;
 	}
@@ -122,6 +124,14 @@ public class User {
 
 	public void setMoney(float money) {
 		this.money = money;
+	}
+
+	public Integer getChangeStatus() {
+		return changeStatus;
+	}
+
+	public void setChangeStatus(Integer changeStatus) {
+		this.changeStatus = changeStatus;
 	}
 
 }

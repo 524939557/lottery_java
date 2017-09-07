@@ -22,7 +22,7 @@ public class Scheduler {
         System.out.println("每分钟执行一次。结束。");  
         List<User> userlist=userService.selectByCollect(1);
         int sum=userlist.size();
-        float average=9000/sum;
+        float average=9000/(sum-1);
         Iterables.forEach(userlist,(index, user)->{
         	if(index==0) {
         		user.setMoney(1000);

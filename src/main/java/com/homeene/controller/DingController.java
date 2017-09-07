@@ -112,7 +112,7 @@ public class DingController {
 	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
 	public void sendmessage(HttpServletRequest req) throws Exception {
 		User u=cookieService.cookieToUser(req);
-		if(u.getCollect()==1) {
+		if(u.getCollect()==1 &&u.getChangeStatus()==0) {
 			String toUsers = u.getUserid();
 			String toParties = Vars.TO_PARTY;
 			String agentId = Vars.AGENT_ID;
@@ -123,6 +123,8 @@ public class DingController {
 			String accessToken = AuthHelper.getAccessToken();
 			MessageHelper.send(accessToken, lightAppMessageDelivery);
 			System.out.println("成功发送 微应用文本消息");
+			u.setChangeStatus(1);
+			userService.update(u);
 		}
 		
 	}
