@@ -74,13 +74,15 @@ public class SampleController {
 		System.out.println("select One" + u.getUserid());
 		if (u != null)
 		{
-			if (this.checkTimes(u.getUserid()))
+			Times t = this.checkTimes(u.getUserid());
+			if (t == null || t.getTimes() < 5)
 			{
 				Question q = questionService.selectone(u);
 				List<Options> option = optionService.selectOptionByQuestionId(q.getId());
 				Map<String, Object> map = new HashMap<>();
 				map.put("question", q);
 				map.put("options", option);
+				map.put("times", t != null ? 4 - t.getTimes() : 4);
 				System.out.println("select One map " + map.toString());
 				return map;
 			} else
@@ -96,8 +98,6 @@ public class SampleController {
 			throws UnsupportedEncodingException {
 		Integer questionId = map.get("questionId");
 		Integer answerId = map.get("answerId");
-		System.out.println("---------------checkAnswer questionId ：" + questionId);
-		System.out.println("---------------checkAnswer answerId：" + answerId);
 		Answer answer = answerService.selectByQuestion(questionId);
 		User u = cookieService.cookieToUser(req);
 		this.updateTimes(u);// 添加次数
@@ -120,7 +120,7 @@ public class SampleController {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value = "shareCard", method = RequestMethod.GET)
+	@RequestMapping(value = "/shareCard", method = RequestMethod.GET)
 	public Award shareCard(HttpServletRequest req, HttpServletResponse rsp) throws UnsupportedEncodingException {
 		User u = cookieService.cookieToUser(req);
 		Map<String, String> map = new HashMap<String, String>();
@@ -145,12 +145,16 @@ public class SampleController {
 
 		List<Award> awardList = awardService.getAward();
 		List<User> collectList = userservice.selectByCollect(1);
-		if (collectList.size() > 150)
-		{
-			awardList.get(0).setProbability(0);
-		}
 		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
-		Award award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
+		Award award = null;
+		if (collectList.size() > 100)
+		{
+			award = awardService.lotterOver(awardList, myward);
+		} else
+		{
+			award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
+		}
+
 		System.out.println("我抽到的卡片" + award.getId());
 		award = awardService.selectById(award.getId());
 		award.setIssue(award.getIssue() + 1);
@@ -181,18 +185,18 @@ public class SampleController {
 		return award;
 	}
 
-	public boolean checkTimes(String userId) {
+	public Times checkTimes(String userId) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
 		LocalDate date = LocalDate.now();
 		map.put("date", date.toString());
 		System.out.println("check times" + map.toString());
 		Times t = timesService.selectByCreateTime(map);
-		if (t != null && t.getTimes() > 5)
-		{// 次数超五次
-			return false;
-		}
-		return true;
+		// if (t != null && t.getTimes() > 5)
+		// {// 次数超五次
+		// return false;
+		// }
+		return t;
 	}
 
 	public void updateTimes(User u) {

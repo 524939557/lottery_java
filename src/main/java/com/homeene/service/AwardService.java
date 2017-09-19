@@ -52,4 +52,23 @@ public class AwardService {
 		return PrizeMathRandom.lottery(result);
 		// return PrizeMathRandom.lottery(awardList);//平均的概率
 	}
+	
+	public Award lotterOver(List<Award> awardList, List<MyAward> myward) {
+		List<Award> result = awardList.stream().map(award -> {
+			Integer awardId = award.getId();
+			boolean hasCards = myward.stream().anyMatch(mward -> awardId.equals(mward.getAwardId()));
+			if (hasCards)
+			{
+				if (award.getProbability() != 0)
+				{
+					award.setProbability(award.getProbability());
+				}
+			} else
+			{
+				award.setProbability(0);
+			}
+			return award;
+		}).collect(Collectors.toList());
+		return PrizeMathRandom.lottery(result);
+	}
 }

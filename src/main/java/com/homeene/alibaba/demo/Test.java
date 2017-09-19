@@ -13,10 +13,9 @@ public class Test {
 		// 获取access token
 		String accessToken = AuthHelper.getAccessToken();
 		System.out.println("成功获取access token: "+ accessToken);
-		CorpUserDetail userDetail11 = UserHelper.getUser(accessToken,"0438175833697878");
+		CorpUserDetail userDetail11 = UserHelper.getUser(accessToken,"63572364184");
 		System.out.println("成功获取成员"+ "成员userid="+ userDetail11.getUserid());
-		
-		Department department=DepartmentHelper.getDepartment(accessToken,"18283815");
+		Department department=DepartmentHelper.getDepartment(accessToken,"31590192");
 		System.out.println(department.getName());
 	}
 
