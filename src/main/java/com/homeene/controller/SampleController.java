@@ -147,7 +147,7 @@ public class SampleController {
 		List<User> collectList = userservice.selectByCollect(1);
 		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
 		Award award = null;
-		if (collectList.size() > 100)
+		if (collectList.size() >= 100)
 		{
 			award = awardService.lotterOver(awardList, myward);
 		} else
@@ -176,7 +176,7 @@ public class SampleController {
 			myAwardService.update(myAward);
 		}
 		Integer total = myAwardService.selectMyCollect(u.getUserid());// 是否集齐21张
-		if (total == 21)
+		if (total == 21&&u.getCollect()!=1)
 		{
 			u.setCollect(1);
 			u.setCollectTime(new Date());
@@ -184,6 +184,11 @@ public class SampleController {
 		}
 		return award;
 	}
+//	@RequestMapping(value = "/test", method = RequestMethod.GET)
+//	public void test() throws UnsupportedEncodingException {
+//		User u=userservice.selectByUserId("0438175833697878");
+//		this.getAward(u);
+//	}
 
 	public Times checkTimes(String userId) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -192,10 +197,6 @@ public class SampleController {
 		map.put("date", date.toString());
 		System.out.println("check times" + map.toString());
 		Times t = timesService.selectByCreateTime(map);
-		// if (t != null && t.getTimes() > 5)
-		// {// 次数超五次
-		// return false;
-		// }
 		return t;
 	}
 

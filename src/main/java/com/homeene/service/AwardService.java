@@ -35,17 +35,17 @@ public class AwardService {
 			Integer awardId = award.getId();
 			int sum = myward.size();
 			boolean hasCards = myward.stream().anyMatch(mward -> awardId.equals(mward.getAwardId()));
-			if (hasCards)
+			if (!hasCards)
 			{
-				float probality = sum * 0.01f / (22 - sum);
-				probality = (float) (Math.round(probality * 1000)) / 1000;
+//				float probality = sum * 0.01f / (22 - sum);
+//				probality = (float) (Math.round(probality * 1000)) / 1000;
 				if (award.getProbability() != 0)
 				{
-					award.setProbability(award.getProbability() + probality);
+					award.setProbability(award.getProbability() + 0.08f);
 				}
 			} else
 			{
-				award.setProbability(award.getProbability());
+				award.setProbability(award.getProbability()-0.05f);
 			}
 			return award;
 		}).collect(Collectors.toList());

@@ -58,7 +58,11 @@ public class UserHelper {
 	public static CorpUserDetail getUser(String accessToken, String userid) throws Exception {
 
 		CorpUserService corpUserService = ServiceFactory.getInstance().getOpenService(CorpUserService.class);
-		return corpUserService.getCorpUser(accessToken, userid);
+		try {
+			return corpUserService.getCorpUser(accessToken, userid);
+		}catch(Exception e) {
+			return null;
+		}
 	}
 
 	// 批量删除成员

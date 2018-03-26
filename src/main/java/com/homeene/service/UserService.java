@@ -34,4 +34,9 @@ public class UserService {
 	public User selectLotteryByUserId(String userId) {
 		return userMapper.selectLotteryByUserId(userId);
 	}
+	
+	public List<User> selectUser(){
+		return userMapper.selectAll();
+	}
+
 }
