@@ -6,7 +6,6 @@
 	<groupId>com.homeene</groupId>
 	<artifactId>award</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 
 	<name>award</name>
 	<description>Demo project for Spring Boot</description>
