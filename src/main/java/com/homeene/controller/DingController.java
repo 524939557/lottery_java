@@ -14,10 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dingtalk.open.client.api.model.corp.CorpUserBaseInfo;
 import com.dingtalk.open.client.api.model.corp.CorpUserDetail;
+<<<<<<< HEAD
 import com.homeene.alibaba.auth.AuthHelper;
 import com.homeene.alibaba.demo.Env;
+=======
+import com.dingtalk.open.client.api.model.corp.MessageBody;
+import com.dingtalk.open.client.api.model.corp.MessageType;
+import com.homeene.alibaba.auth.AuthHelper;
+import com.homeene.alibaba.demo.Env;
+import com.homeene.alibaba.demo.Vars;
+import com.homeene.alibaba.message.LightAppMessageDelivery;
+import com.homeene.alibaba.message.MessageHelper;
+>>>>>>> 8-27-21
 import com.homeene.alibaba.user.UserHelper;
 import com.homeene.model.User;
+import com.homeene.service.CookieService;
 import com.homeene.service.PersistentLoginService;
 import com.homeene.service.UserService;
 
@@ -30,6 +41,9 @@ public class DingController {
 
 	@Resource
 	private PersistentLoginService persistentLoginService;
+	
+	@Resource
+	private CookieService cookieService;
 
 	@RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
 	public Map<String, Object> getAuthCode() throws Exception {
@@ -57,6 +71,7 @@ public class DingController {
 		return map;
 	}
 
+	
 	/**
 	 * 获取用户信息
 	 * 
@@ -98,9 +113,33 @@ public class DingController {
 		}
 		// System.out.println(sb.toString());
 	}
+<<<<<<< HEAD
 	  @RequestMapping(value = "/show",method =RequestMethod.GET)
 	    public String show() {
 	        return "hello world";
 	  }
 
+=======
+	
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
+	public void sendmessage(HttpServletRequest req) throws Exception {
+		User u=cookieService.cookieToUser(req);
+		if(u.getCollect()==1 &&u.getChangeStatus()==0) {
+			String toUsers = u.getUserid();
+			String toParties = Vars.TO_PARTY;
+			String agentId = Vars.AGENT_ID;
+			MessageBody.TextBody textBody = new MessageBody.TextBody();
+			textBody.setContent("恭喜你集齐21张文化卡，请于活动截止日期后联系总裁办兑换奖金！");
+			LightAppMessageDelivery lightAppMessageDelivery = new LightAppMessageDelivery(toUsers, toParties, agentId);
+			lightAppMessageDelivery.withMessage(MessageType.TEXT, textBody);
+			String accessToken = AuthHelper.getAccessToken();
+			MessageHelper.send(accessToken, lightAppMessageDelivery);
+			System.out.println("成功发送 微应用文本消息");
+			u.setChangeStatus(1);
+			userService.update(u);
+		}
+		
+	}
+	
+>>>>>>> 8-27-21
 }

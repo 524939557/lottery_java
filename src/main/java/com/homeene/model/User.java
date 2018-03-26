@@ -3,99 +3,135 @@ package com.homeene.model;
 import java.util.Date;
 
 public class User {
-    private Integer id;
 
-    private String userid;
+	private Integer id;
 
-    private String name;
+	private String userid;
 
-    private String tel;
+	private String name;
 
-    private String mobile;
+	private String tel;
 
-    private Boolean active;
+	private String mobile;
 
-    private Date createTime;
-    
-    private int collect;
-    
-    private Date collectTime;
+	private Boolean active;
 
-    public Integer getId() {
-        return id;
-    }
+	private Date createTime;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private Integer collect;
 
-    public String getUserid() {
-        return userid;
-    }
+	private Date collectTime;
 
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
+	private Integer questionId;
 
-    public String getName() {
-        return name;
-    }
+	private Integer current;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	private float money;
 
-    public String getTel() {
-        return tel;
-    }
+	private Integer changeStatus;
 
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getMobile() {
-        return mobile;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
+	public String getUserid() {
+		return userid;
+	}
 
-    public Boolean getActive() {
-        return active;
-    }
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 
-    public void setActive(Boolean boolean1) {
-        this.active = boolean1;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public String getTel() {
+		return tel;
+	}
 
-	
-	public int getCollect() {
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean boolean1) {
+		this.active = boolean1;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getCollect() {
 		return collect;
 	}
 
-	
-	public void setCollect(int collect) {
+	public void setCollect(Integer collect) {
 		this.collect = collect;
 	}
 
-	
 	public Date getCollectTime() {
 		return collectTime;
 	}
 
-	
 	public void setCollectTime(Date collectTime) {
 		this.collectTime = collectTime;
 	}
-    
-    
+
+	public Integer getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(Integer questionId) {
+		this.questionId = questionId;
+	}
+
+	public Integer getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(Integer current) {
+		this.current = current;
+	}
+
+	public float getMoney() {
+		return money;
+	}
+
+	public void setMoney(float money) {
+		this.money = money;
+	}
+
+	public Integer getChangeStatus() {
+		return changeStatus;
+	}
+
+	public void setChangeStatus(Integer changeStatus) {
+		this.changeStatus = changeStatus;
+	}
+
 }

@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="probability" property="probability" jdbcType="INTEGER" />
+    <result column="probability" property="probability" jdbcType="FLOAT" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="count" property="count" jdbcType="INTEGER" />
     <result column="issue" property="issue" jdbcType="INTEGER" />
@@ -20,14 +20,18 @@
     </selectKey>
     insert into award (name, url, probability, content,issue,
       count)
+<<<<<<< HEAD
     values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{probability,jdbcType=INTEGER},  #{content,jdbcType=VARCHAR},
+=======
+    values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{probability,jdbcType=FLOAT},  #{content,jdbcType=VARCHAR},
+>>>>>>> 8-27-21
       #{count,jdbcType=INTEGER}), #{issue,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.Award" >
     update award
     set name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
-      probability = #{probability,jdbcType=INTEGER},
+      probability = #{probability,jdbcType=FLOAT},
       content = #{content,jdbcType=VARCHAR},
        issue = #{issue,jdbcType=INTEGER},
       count = #{count,jdbcType=INTEGER}

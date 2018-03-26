@@ -9,8 +9,12 @@
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="active" property="active" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-     <result column="collect" property="collect" jdbcType="INTEGER" />
+    <result column="collect" property="collect" jdbcType="INTEGER" />
     <result column="collect_time" property="collectTime" jdbcType="TIMESTAMP" />
+    <result column="question_id" property="questionId" jdbcType="INTEGER" />
+    <result column="current" property="current" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="FLOAT" />
+    <result column="change_status" property="changeStatus" jdbcType="INTEGER" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
@@ -21,11 +25,12 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user (userid, name, tel, 
-      mobile, active, create_time,collect,collect_time
+      mobile, active, create_time,collect,collect_time,question_id,current,money,change_status
       )
     values (#{userid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{active,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      , #{collect,jdbcType=INTEGER}, #{collectTime,jdbcType=TIMESTAMP}
+      , #{collect,jdbcType=INTEGER}, #{collectTime,jdbcType=TIMESTAMP}, #{questionId,jdbcType=INTEGER}
+      , #{current,jdbcType=INTEGER}, #{money,jdbcType=FLOAT} , #{changeStatus,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.User" >
@@ -35,32 +40,36 @@
       tel = #{tel,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       active = #{active,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       collect = #{collect,jdbcType=INTEGER},
-      collect_time = #{collectTime,jdbcType=TIMESTAMP}
+      collect_time = #{collectTime,jdbcType=TIMESTAMP},
+      question_id=#{questionId,jdbcType=INTEGER},
+      current=#{current,jdbcType=INTEGER},
+      change_status= #{changeStatus,jdbcType=INTEGER},
+      money=#{money,jdbcType=FLOAT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
     from user
     where userid = #{userid,jdbcType=VARCHAR}
   </select>
   <select id="selectLotteryByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
     from user
     where userid = #{userid,jdbcType=VARCHAR} and collect=1
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
     from user
   </select>
   <select id="selectByCollect" resultMap="BaseResultMap" parameterType="java.lang.Integer"  >
-    select id, userid, name, tel, mobile, active, create_time, collect, collect_time
+    select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
     from user 
     where collect = #{collect,jdbcType=INTEGER} order by collect_time
   </select>

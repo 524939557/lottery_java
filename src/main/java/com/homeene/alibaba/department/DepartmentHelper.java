@@ -96,6 +96,11 @@ public class DepartmentHelper {
 //		HttpHelper.httpPost(url, args);
 	}
 	
+	public static Department getDepartment(String accessToken,String id) throws Exception{
+		CorpDepartmentService corpDepartmentService = ServiceFactory.getInstance().getOpenService(CorpDepartmentService.class);
+		return corpDepartmentService.getDeptDetail(accessToken, id);
+	}
+	
 	public static void main(String args[]){
 		
 		String aa = "fwfef" + null;

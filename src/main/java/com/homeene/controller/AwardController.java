@@ -36,6 +36,7 @@ public class AwardController {
 	@Resource
 	private UserService userservice;
 
+<<<<<<< HEAD
 	@RequestMapping(value = "/myCard/{userId}", method = RequestMethod.GET)
 	public List<MyAward> selectMyAward(@PathVariable String userId) {
 
@@ -74,11 +75,40 @@ public class AwardController {
 			userservice.update(u);
 		}
 		return award;
+=======
+	/**
+	 * 我的所有卡
+	 * @param req
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping(value = "/myCard", method = RequestMethod.GET)
+	public List<MyAward> selectMyAward(HttpServletRequest req) throws UnsupportedEncodingException {
+		User u=cookieservice.cookieToUser(req);
+		List<MyAward> result=myAwardService.selectMyAward(u.getUserid());
+		result.forEach(ma->System.out.println(ma.getAwardId()+":"+ma.getTotal()));
+		return result;
+>>>>>>> 8-27-21
 	}
 
+	/**
+	 * 我是否集齐21张卡
+	 * @param req
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping(value = "/mylottery", method = RequestMethod.GET)
 	public User getLotteryUser(HttpServletRequest req) throws UnsupportedEncodingException {
 		User u = cookieservice.cookieToUser(req);
 		return userservice.selectLotteryByUserId(u.getUserid());
+	}
+	/**
+	 * 集齐21张卡的人
+	 * @return
+	 */
+	@RequestMapping(value="/lotteryUsers",method=RequestMethod.GET)
+	public List<User> getLotteryUsers(){
+		
+		return userservice.selectByCollect(1);
 	}
 }

@@ -13,35 +13,78 @@ import com.homeene.model.MyAward;
 import com.homeene.utils.PrizeMathRandom;
 
 @Service
+<<<<<<< HEAD
 public class AwardService{
 
 	@Resource
 	private AwardMapper awardMapper;
 	
 	public List<Award> getAward(){
+=======
+public class AwardService {
+
+	@Resource
+	private AwardMapper awardMapper;
+
+	public List<Award> getAward() {
+>>>>>>> 8-27-21
 		return awardMapper.selectAll();
 	}
+
+	public Award selectById(int id) {
+		return awardMapper.selectByPrimaryKey(id);
+	}
+
+	public int updateAward(Award award) {
+		return awardMapper.updateByPrimaryKey(award);
+	}
+
+	public Award lotter(List<Award> awardList, List<MyAward> myward) {
+		List<Award> result = awardList.stream().map(award -> {
+			Integer awardId = award.getId();
+			int sum = myward.size();
+			boolean hasCards = myward.stream().anyMatch(mward -> awardId.equals(mward.getAwardId()));
+			if (!hasCards)
+			{
+//				float probality = sum * 0.01f / (22 - sum);
+//				probality = (float) (Math.round(probality * 1000)) / 1000;
+				if (award.getProbability() != 0)
+				{
+					award.setProbability(award.getProbability() + 0.08f);
+				}
+			} else
+			{
+				award.setProbability(award.getProbability()-0.05f);
+			}
+			return award;
+		}).collect(Collectors.toList());
+		return PrizeMathRandom.lottery(result);
+		// return PrizeMathRandom.lottery(awardList);//平均的概率
+	}
 	
+<<<<<<< HEAD
 	public int updateAward(Award award) {
 		return awardMapper.updateByPrimaryKey(award);
 	}
 	public Award lotter(List<Award> awardList,List<MyAward> myward) {
+=======
+	public Award lotterOver(List<Award> awardList, List<MyAward> myward) {
+>>>>>>> 8-27-21
 		List<Award> result = awardList.stream().map(award -> {
-    		Integer awardId = award.getId();
-    		int sum=awardList.size();
-           boolean hasCards = myward
-                    .stream()
-                    .anyMatch(mward -> awardId.equals(mward.getAwardId()));
-            if (hasCards) {
-            	float probality=sum*0.01f/(21-sum);
-    			probality=(float)(Math.round(probality*1000))/1000;
-                award.setProbability(award.getProbability()+probality); 
-            }else {
-            	award.setProbability(award.getProbability()); 
-            }
-            return award;
-        }).collect(Collectors.toList());
-		
+			Integer awardId = award.getId();
+			boolean hasCards = myward.stream().anyMatch(mward -> awardId.equals(mward.getAwardId()));
+			if (hasCards)
+			{
+				if (award.getProbability() != 0)
+				{
+					award.setProbability(award.getProbability());
+				}
+			} else
+			{
+				award.setProbability(0);
+			}
+			return award;
+		}).collect(Collectors.toList());
 		return PrizeMathRandom.lottery(result);
 	}
 }

@@ -30,8 +30,8 @@
     select id, title
     from question  order by rand() limit 0,3
   </select>
-   <select id="selectOne" resultMap="BaseResultMap">
+   <select id="selectOne"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, title
-    from question  order by rand() limit 0,1
+    from question  where type=#{type,jdbcType=INTEGER} order by rand() limit 0,1
   </select>
 </mapper>
