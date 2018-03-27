@@ -6,10 +6,7 @@
     <result column="times" property="times" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="date" property="date" jdbcType="VARCHAR" />
-<<<<<<< HEAD
-=======
     <result column="share" property="share" jdbcType="INTEGER" />
->>>>>>> 8-27-21
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from times
@@ -19,53 +16,31 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-<<<<<<< HEAD
-    insert into times (times, user_id, date
-      )
-    values (#{times,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR}
-=======
     insert into times (times, user_id, date,share
       )
     values (#{times,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR},#{share,jdbcType=INTEGER}
->>>>>>> 8-27-21
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.Times" >
     update times
     set times = #{times,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=VARCHAR},
-<<<<<<< HEAD
-      date = #{date,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, times, user_id, date
-=======
       date = #{date,jdbcType=VARCHAR},
       share = #{share,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, times, user_id, date,share
->>>>>>> 8-27-21
     from times
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByCreateTime" resultMap="BaseResultMap" >
-<<<<<<< HEAD
-    select id, times, user_id, date
-=======
     select id, times, user_id, date,share
->>>>>>> 8-27-21
     from times
     where user_id = #{userId} and date =#{date}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
-<<<<<<< HEAD
-    select id, times, user_id, date
-=======
     select id, times, user_id, date,share
->>>>>>> 8-27-21
     from times
   </select>
 </mapper>

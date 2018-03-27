@@ -20,11 +20,7 @@
     </selectKey>
     insert into award (name, url, probability, content,issue,
       count)
-<<<<<<< HEAD
     values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{probability,jdbcType=INTEGER},  #{content,jdbcType=VARCHAR},
-=======
-    values (#{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{probability,jdbcType=FLOAT},  #{content,jdbcType=VARCHAR},
->>>>>>> 8-27-21
       #{count,jdbcType=INTEGER}), #{issue,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.Award" >

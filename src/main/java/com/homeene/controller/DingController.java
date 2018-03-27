@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dingtalk.open.client.api.model.corp.CorpUserBaseInfo;
 import com.dingtalk.open.client.api.model.corp.CorpUserDetail;
-<<<<<<< HEAD
-import com.homeene.alibaba.auth.AuthHelper;
-import com.homeene.alibaba.demo.Env;
-=======
 import com.dingtalk.open.client.api.model.corp.MessageBody;
 import com.dingtalk.open.client.api.model.corp.MessageType;
 import com.homeene.alibaba.auth.AuthHelper;
@@ -25,7 +21,6 @@ import com.homeene.alibaba.demo.Env;
 import com.homeene.alibaba.demo.Vars;
 import com.homeene.alibaba.message.LightAppMessageDelivery;
 import com.homeene.alibaba.message.MessageHelper;
->>>>>>> 8-27-21
 import com.homeene.alibaba.user.UserHelper;
 import com.homeene.model.User;
 import com.homeene.service.CookieService;
@@ -113,13 +108,6 @@ public class DingController {
 		}
 		// System.out.println(sb.toString());
 	}
-<<<<<<< HEAD
-	  @RequestMapping(value = "/show",method =RequestMethod.GET)
-	    public String show() {
-	        return "hello world";
-	  }
-
-=======
 	
 	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
 	public void sendmessage(HttpServletRequest req) throws Exception {
@@ -138,8 +126,6 @@ public class DingController {
 			u.setChangeStatus(1);
 			userService.update(u);
 		}
-		
 	}
 	
->>>>>>> 8-27-21
 }

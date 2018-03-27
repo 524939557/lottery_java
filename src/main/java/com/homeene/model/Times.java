@@ -10,11 +10,8 @@ public class Times {
     private String userId;
 
     private String date;
-<<<<<<< HEAD
-=======
-    
+
     private Integer share;
->>>>>>> 8-27-21
 
     public Integer getId() {
         return id;
@@ -49,9 +46,6 @@ public class Times {
 	public void setDate(String date) {
 		this.date = date;
 	}
-<<<<<<< HEAD
-=======
-
 	
 	public Integer getShare() {
 		return share;
@@ -61,8 +55,5 @@ public class Times {
 	public void setShare(Integer share) {
 		this.share = share;
 	}
->>>>>>> 8-27-21
-    
-    
 
 }

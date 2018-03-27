@@ -13,21 +13,12 @@ import com.homeene.model.MyAward;
 import com.homeene.utils.PrizeMathRandom;
 
 @Service
-<<<<<<< HEAD
-public class AwardService{
-
-	@Resource
-	private AwardMapper awardMapper;
-	
-	public List<Award> getAward(){
-=======
 public class AwardService {
 
 	@Resource
 	private AwardMapper awardMapper;
 
 	public List<Award> getAward() {
->>>>>>> 8-27-21
 		return awardMapper.selectAll();
 	}
 
@@ -62,14 +53,7 @@ public class AwardService {
 		// return PrizeMathRandom.lottery(awardList);//平均的概率
 	}
 	
-<<<<<<< HEAD
-	public int updateAward(Award award) {
-		return awardMapper.updateByPrimaryKey(award);
-	}
-	public Award lotter(List<Award> awardList,List<MyAward> myward) {
-=======
 	public Award lotterOver(List<Award> awardList, List<MyAward> myward) {
->>>>>>> 8-27-21
 		List<Award> result = awardList.stream().map(award -> {
 			Integer awardId = award.getId();
 			boolean hasCards = myward.stream().anyMatch(mward -> awardId.equals(mward.getAwardId()));

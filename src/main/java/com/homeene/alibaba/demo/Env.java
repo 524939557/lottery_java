@@ -7,8 +7,8 @@ public class Env {
 	public static final String OAPI_HOST = "https://oapi.dingtalk.com";
 	public static final String OA_BACKGROUND_URL = ""; 
 	public static final String CORP_ID = "ding8251484bf665825b35c2f4657eb6378f";
-	
-	public static final String CORP_SECRET = "oRIsb5QwdhKLlueYFWU6WuF1eryx26NFK09Ro4ladXEX5HXn9ZQjRr4pADKmRN1r";
+	//oRIsb5QwdhKLlueYFWU6WuF1eryx26NFK09Ro4ladXEX5HXn9ZQjRr4pADKmRN1r
+	public static final String CORP_SECRET = "QBkhEqm8_ljR1QhgoGKkzYL_vM9pL49ImQxFb3yqW2T5gxDBon8kz3MFPuHUxAce";
 	public static final String SSO_Secret = "";
 
 	

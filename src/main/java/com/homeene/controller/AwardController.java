@@ -36,46 +36,6 @@ public class AwardController {
 	@Resource
 	private UserService userservice;
 
-<<<<<<< HEAD
-	@RequestMapping(value = "/myCard/{userId}", method = RequestMethod.GET)
-	public List<MyAward> selectMyAward(@PathVariable String userId) {
-
-		return myAwardService.selectMyAward(userId);
-	}
-	//抽卡接口从抽题 请求
-	public Award getAward(HttpServletRequest req) throws UnsupportedEncodingException {
-
-		User u = cookieservice.cookieToUser(req);
-		List<Award> awardList = awardService.getAward();
-		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
-		Award award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
-		award.setIssue(award.getIssue()+1);
-		awardService.updateAward(award);//修改次数
-		HashMap<String,Object> map=new HashMap<>();
-		map.put("awardId", award.getId());
-		map.put("userId", u.getUserid());
-		MyAward myAward = myAwardService.selectMyAwardById(map);// 查看该卡是否拥有
-		if (myAward == null)
-		{
-			myAward = new MyAward();
-			myAward.setAwardId(award.getId());
-			myAward.setUserId(u.getUserid());
-			myAward.setTotal(1);
-			myAwardService.insert(myAward);
-		} else
-		{
-			myAward.setTotal(myAward.getTotal() + 1);
-			myAwardService.update(myAward);
-		}
-		Integer total = myAwardService.selectMyCollect(u.getUserid());// 是否集齐21张
-		if (total == 21)
-		{
-			u.setCollect(1);
-			u.setCollectTime(new Date());
-			userservice.update(u);
-		}
-		return award;
-=======
 	/**
 	 * 我的所有卡
 	 * @param req
@@ -88,7 +48,6 @@ public class AwardController {
 		List<MyAward> result=myAwardService.selectMyAward(u.getUserid());
 		result.forEach(ma->System.out.println(ma.getAwardId()+":"+ma.getTotal()));
 		return result;
->>>>>>> 8-27-21
 	}
 
 	/**
