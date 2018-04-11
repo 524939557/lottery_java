@@ -133,6 +133,11 @@
 		    <artifactId>fastjson</artifactId>
 		    <version>1.2.35</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20171018</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>
 		    <groupId>org.apache.httpcomponents</groupId>
@@ -172,6 +177,10 @@
 		      <groupId>com.homeene.ddtalk.spring</groupId>
 		      <artifactId>client-sdk.spring</artifactId>
 		      <version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
 		</dependency>
 	</dependencies>
 

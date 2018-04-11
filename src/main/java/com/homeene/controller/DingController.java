@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,29 +17,34 @@ import com.dingtalk.open.client.api.model.corp.CorpUserBaseInfo;
 import com.dingtalk.open.client.api.model.corp.CorpUserDetail;
 import com.dingtalk.open.client.api.model.corp.MessageBody;
 import com.dingtalk.open.client.api.model.corp.MessageType;
+import com.google.gson.Gson;
 import com.homeene.alibaba.auth.AuthHelper;
 import com.homeene.alibaba.demo.Env;
 import com.homeene.alibaba.demo.Vars;
 import com.homeene.alibaba.message.LightAppMessageDelivery;
 import com.homeene.alibaba.message.MessageHelper;
 import com.homeene.alibaba.user.UserHelper;
+import com.homeene.model.AccessToken;
+import com.homeene.model.PersonInfo;
 import com.homeene.model.User;
+import com.homeene.service.AccessTokenService;
 import com.homeene.service.CookieService;
 import com.homeene.service.PersistentLoginService;
+import com.homeene.service.PersonInfoService;
 import com.homeene.service.UserService;
 
 @RestController
 @RequestMapping(value = "/user")
 public class DingController {
 
-	@Resource
-	private UserService userService;
+	@Resource private UserService userService;
 
-	@Resource
-	private PersistentLoginService persistentLoginService;
+	@Resource private AccessTokenService AccessTokenService;
+	@Resource private PersonInfoService PersonInfoService;
 	
-	@Resource
-	private CookieService cookieService;
+	@Resource private PersistentLoginService persistentLoginService;
+	
+	@Resource private CookieService cookieService;
 
 	@RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
 	public Map<String, Object> getAuthCode() throws Exception {
@@ -77,21 +83,31 @@ public class DingController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
 	public String getUser(@RequestBody Map<String, String> code, HttpServletRequest req, HttpServletResponse rsp)
 			throws Exception {
-		String accessToken = AuthHelper.getAccessToken();
-		System.out.println(code.get("code"));
-		CorpUserBaseInfo userBaseInfo = UserHelper.getUserInfo(accessToken, code.get("code"));
-		User user = userService.selectByUserId(userBaseInfo.getUserid());
-		if (user == null)
-		{
+		User user=cookieService.cookieToUser(req);
+		if(user==null) {
+			System.out.println(code.get("code"));
+			String at_result=AccessTokenService.getAccessToken(code.toString());
+			AccessToken at=new Gson().fromJson(at_result,AccessToken.class);
+			AccessTokenService.insert(at);
+			String person_result=AccessTokenService.getPersonInfoByAccessToken(at.getAccessToken(),at.getOpenid());
+			PersonInfo pi=PersonInfoService.insertAccessPerson(person_result);
 			user = new User();
-			CorpUserDetail userDetail = UserHelper.getUser(accessToken, userBaseInfo.getUserid());
-			user.setActive(userDetail.getActive());
 			user.setCreateTime(new Date());
-			user.setMobile(userDetail.getMobile());
-			user.setName(userDetail.getName());
-			user.setTel(userDetail.getTel());
-			user.setUserid(userDetail.getUserid());
+			user.setName(pi.getNickname());
+			user.setUserid(pi.getOpenid());
 			userService.insert(user);
+		}else {
+			String openid = user.getUserid();
+			AccessToken at=AccessTokenService.selectByPrimaryKey(openid);
+			boolean flag=AccessTokenService.checkToken(at.getAccessToken(), openid);
+			if(!flag) {
+				String result= AccessTokenService.getRefreshToken(at.getAccessToken());
+				AccessToken at_new=new Gson().fromJson(result, AccessToken.class);
+				AccessTokenService.updateByPrimaryKey(at_new);
+			}
+			String globalToken=AuthHelper.getAccessToken();
+			String personInfo=AccessTokenService.getPersonInfoByGlobalAccessToken(globalToken, openid);
+			PersonInfoService.insertPerson(personInfo);
 		}
 		String cookieValue = persistentLoginService.addCookie(user);
 		return cookieValue;

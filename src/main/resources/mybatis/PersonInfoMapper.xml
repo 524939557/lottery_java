@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.richman.kotlin.dao.PersonInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.richman.kotlin.entity.PersonInfo" >
+    <id column="subscribe" property="subscribe" jdbcType="INTEGER" />
+    <id column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="subscribe_time" property="subscribe_time" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="groupid" property="groupid" jdbcType="INTEGER" />
+    <result column="tagid_list" property="tagid_list" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from person_info
+    where openid = #{openid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.richman.kotlin.entity.PersonInfo" >
+    insert into person_info (subscribe,openid, nickname, sex, language,
+      province, city, country, 
+      headimgurl, subscribe_time,remark, unionid,groupid,tagid_list
+      )
+    values (#{subscribe,jdbcType=INTEGER},#{openid,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
+      #{language,jdbcType=VARCHAR},
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{headimgurl,jdbcType=VARCHAR},#{subscribe_time,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR},
+      #{groupid,jdbcType=INTEGER}, #{tagid_list,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.richman.kotlin.entity.PersonInfo" >
+    update person_info
+    set
+     subscribe = #{subscribe,jdbcType=INTEGER},
+     nickname = #{nickname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+     language= #{language,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      headimgurl = #{headimgurl,jdbcType=VARCHAR},
+      subscribe_time = #{subscribe_time,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      unionid = #{unionid,jdbcType=VARCHAR},
+      groupid = #{groupid,jdbcType=INTEGER},
+     tagid_list = #{tagid_list,jdbcType=VARCHAR}
+    where openid = #{openid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select subscribe,openid, nickname, sex,language, province, city, country, headimgurl,subscribe_time, remark, unionid,groupid,tagid_list
+    from person_info
+    where openid = #{openid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select  subscribe,openid, nickname, sex,language, province, city, country, headimgurl,subscribe_time, remark, unionid,groupid,tagid_list
+    from person_info
+  </select>
+</mapper>

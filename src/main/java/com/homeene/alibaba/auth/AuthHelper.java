@@ -10,7 +10,10 @@ import java.util.Formatter;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.tomcat.util.bcel.classfile.Constant;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -28,6 +31,8 @@ import com.homeene.alibaba.demo.OApiResultException;
 import com.homeene.alibaba.service.ServiceHelper;
 import com.homeene.alibaba.utils.FileUtils;
 import com.homeene.alibaba.utils.HttpHelper;
+import com.homeene.common.Constants;
+import com.homeene.service.AccessTokenService;
 
 public class AuthHelper {
 
@@ -39,6 +44,7 @@ public class AuthHelper {
 	public static long currentTime = 0 + cacheTime + 1;
 	public static long lastTime = 0;
 	public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	@Resource private static AccessTokenService accessTokenService;
 
 	/*
 	 * 在此方法中，为了避免频繁获取access_token，
@@ -50,37 +56,31 @@ public class AuthHelper {
 	 * 注：jsapi_ticket是在前端页面JSAPI做权限验证配置的时候需要使用的
 	 * 具体信息请查看开发者文档--权限验证配置
 	 */
-	public static String getAccessToken() throws OApiException {
+	public static String getAccessToken() throws Exception {
 		long curTime = System.currentTimeMillis();
-		JSONObject accessTokenValue = (JSONObject) FileUtils.getValue("accesstoken", Env.CORP_ID);
+		JSONObject accessTokenValue = (JSONObject) FileUtils.getValue("accesstoken", Constants.GobleToken);
 		String accToken = "";
 		String jsTicket = "";
 		JSONObject jsontemp = new JSONObject();
 		if (accessTokenValue == null || curTime - accessTokenValue.getLong("begin_time") >= cacheTime) {
 			try
 			{
-			ServiceFactory serviceFactory = ServiceFactory.getInstance();
-	        CorpConnectionService corpConnectionService = serviceFactory.getOpenService(CorpConnectionService.class);
-	        accToken = corpConnectionService.getCorpToken(Env.CORP_ID, Env.CORP_SECRET);
+	        accToken = accessTokenService.getGlobalAccessToken();
 			// save accessToken
 			JSONObject jsonAccess = new JSONObject();
 			jsontemp.clear();
 			jsontemp.put("access_token", accToken);
 			jsontemp.put("begin_time", curTime);
-			jsonAccess.put(Env.CORP_ID, jsontemp);
+			jsonAccess.put(Constants.GobleToken, jsontemp);
 			FileUtils.write2File(jsonAccess, "accesstoken");
 			
 			if(accToken.length() > 0){
-				
-				JsapiService jsapiService = serviceFactory.getOpenService(JsapiService.class);
-
-				JsapiTicket JsapiTicket = jsapiService.getJsapiTicket(accToken, "jsapi");
-				jsTicket = JsapiTicket.getTicket();
+				jsTicket = accessTokenService.getTicket(accToken);
 				JSONObject jsonTicket = new JSONObject();
 				jsontemp.clear();
 				jsontemp.put("ticket", jsTicket);
 				jsontemp.put("begin_time", curTime);
-				jsonTicket.put(Env.CORP_ID, jsontemp);
+				jsonTicket.put(Constants.GobleToken, jsontemp);
 				FileUtils.write2File(jsonTicket, "jsticket");
 			}
 		} catch (SdkInitException e) {
@@ -93,7 +93,6 @@ public class AuthHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		} else {
 			return accessTokenValue.getString("access_token");
 		}
@@ -102,21 +101,13 @@ public class AuthHelper {
 	}
 
 	// 正常的情况下，jsapi_ticket的有效期为7200秒，所以开发者需要在某个地方设计一个定时器，定期去更新jsapi_ticket
-	public static String getJsapiTicket(String accessToken) throws OApiException {
-		JSONObject jsTicketValue = (JSONObject) FileUtils.getValue("jsticket", Env.CORP_ID);
+	public static String getJsapiTicket(String accessToken) throws Exception {
+		JSONObject jsTicketValue = (JSONObject) FileUtils.getValue("jsticket", Constants.GobleToken);
 		long curTime = System.currentTimeMillis();
 		String jsTicket = "";
-
-		 if (jsTicketValue == null || curTime -
-		 jsTicketValue.getLong("begin_time") >= cacheTime) {
-			ServiceFactory serviceFactory;
+		 if (jsTicketValue == null || curTime - jsTicketValue.getLong("begin_time") >= cacheTime) {
 			try {
-				serviceFactory = ServiceFactory.getInstance();
-				JsapiService jsapiService = serviceFactory.getOpenService(JsapiService.class);
-
-				JsapiTicket JsapiTicket = jsapiService.getJsapiTicket(accessToken, "jsapi");
-				jsTicket = JsapiTicket.getTicket();
-
+				jsTicket = accessTokenService.getTicket(accessToken);
 				JSONObject jsonTicket = new JSONObject();
 				JSONObject jsontemp = new JSONObject();
 				jsontemp.clear();
@@ -165,7 +156,7 @@ public class AuthHelper {
 		return result;
 	}
 
-	public static String getConfig(HttpServletRequest request) {
+	public static String getConfig(HttpServletRequest request) throws Exception {
 		String urlString = request.getRequestURL().toString();
 		String queryString = request.getQueryString();
 
