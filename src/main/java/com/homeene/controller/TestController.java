@@ -1,21 +1,12 @@
 package com.homeene.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dingtalk.open.client.api.model.corp.MessageBody;
-import com.dingtalk.open.client.api.model.corp.MessageType;
-import com.homeene.alibaba.auth.AuthHelper;
-import com.homeene.alibaba.demo.Vars;
-import com.homeene.alibaba.message.LightAppMessageDelivery;
-import com.homeene.alibaba.message.MessageHelper;
 import com.homeene.service.AwardService;
 import com.homeene.service.TestServices;
 import com.homeene.utils.RedisUtil;

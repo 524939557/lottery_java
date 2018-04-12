@@ -11,7 +11,7 @@ import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import com.homeene.alibaba.demo.Env;
+import com.homeene.common.Constants;
 import com.homeene.model.PersistentLogins;
 import com.homeene.model.User;
 import com.homeene.service.PersistentLoginService;
@@ -60,7 +60,7 @@ public class UserInterceptor implements HandlerInterceptor {
 									+ "-" + calendar.get(Calendar.MINUTE);
 
 							String newToken = EncryptionUtil.sha256Hex(
-									u.getUserid() + "_" + u.getMobile() + "_" + timeString + "_" + Env.CORP_ID);
+									u.getUserid() + "_" + u.getMobile() + "_" + timeString + "_" + Constants.GobleToken);
 
 							if (savedToken.equals(newToken))
 							{

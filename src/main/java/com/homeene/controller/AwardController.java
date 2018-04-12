@@ -1,18 +1,14 @@
 package com.homeene.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.homeene.model.Award;
 import com.homeene.model.MyAward;
 import com.homeene.model.User;
 import com.homeene.service.AwardService;

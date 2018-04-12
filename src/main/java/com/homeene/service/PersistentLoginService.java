@@ -8,7 +8,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import com.homeene.alibaba.demo.Env;
+import com.homeene.common.Constants;
 import com.homeene.dao.PersistentLoginsMapper;
 import com.homeene.model.PersistentLogins;
 import com.homeene.model.User;
@@ -65,7 +65,7 @@ public class PersistentLoginService {
 
 		// sha256加密用户信息
 		String userInfoBySha256 = EncryptionUtil
-				.sha256Hex(user.getUserid() + "_" + user.getMobile() + "_" + timeString + "_" + Env.CORP_ID);
+				.sha256Hex(user.getUserid() + "_" + user.getMobile() + "_" + timeString + "_" + Constants.GobleToken);
 
 		// UUID值
 		String uuidString = UUID.randomUUID().toString();
