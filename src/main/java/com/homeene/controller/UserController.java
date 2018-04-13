@@ -15,18 +15,18 @@ import com.google.gson.Gson;
 import com.homeene.alibaba.auth.AuthHelper;
 import com.homeene.model.AccessToken;
 import com.homeene.model.PersonInfo;
-import com.homeene.model.User;
+import com.homeene.model.Game;
 import com.homeene.service.AccessTokenService;
 import com.homeene.service.CookieService;
+import com.homeene.service.GameService;
 import com.homeene.service.PersistentLoginService;
 import com.homeene.service.PersonInfoService;
-import com.homeene.service.UserService;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
 
-	@Resource private UserService userService;
+	@Resource private GameService gameService;
 
 	@Resource private AccessTokenService AccessTokenService;
 	@Resource private PersonInfoService PersonInfoService;
@@ -45,21 +45,17 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
 	public String getUser(@RequestBody Map<String, String> code, HttpServletRequest req, HttpServletResponse rsp)
 			throws Exception {
-		User user=cookieService.cookieToUser(req);
-		if(user==null) {
+		Game game=cookieService.cookieToUser(req);
+		PersonInfo pi=new PersonInfo();
+		if(game==null) {
 			System.out.println(code.get("code"));
 			String at_result=AccessTokenService.getAccessToken(code.toString());
 			AccessToken at=new Gson().fromJson(at_result,AccessToken.class);
 			AccessTokenService.insert(at);
 			String person_result=AccessTokenService.getPersonInfoByAccessToken(at.getAccessToken(),at.getOpenid());
-			PersonInfo pi=PersonInfoService.insertAccessPerson(person_result);
-			user = new User();
-			user.setCreateTime(new Date());
-			user.setName(pi.getNickname());
-			user.setUserid(pi.getOpenid());
-			userService.insert(user);
+			pi=PersonInfoService.insertAccessPerson(person_result);
 		}else {
-			String openid = user.getUserid();
+			String openid = game.getUserid();
 			AccessToken at=AccessTokenService.selectByPrimaryKey(openid);
 			boolean flag=AccessTokenService.checkToken(at.getAccessToken(), openid);
 			if(!flag) {
@@ -71,7 +67,15 @@ public class UserController {
 			String personInfo=AccessTokenService.getPersonInfoByGlobalAccessToken(globalToken, openid);
 			PersonInfoService.insertPerson(personInfo);
 		}
-		String cookieValue = persistentLoginService.addCookie(user);
+		if(game==null || game.getActive()==false) {
+			game = new Game();
+			game.setCreateTime(new Date());
+			game.setName(pi.getNickname());
+			game.setActive(true);//活动的
+			game.setUserid(pi.getOpenid());
+			gameService.insert(game);
+		}
+		String cookieValue = persistentLoginService.addCookie(game);
 		return cookieValue;
 	}
 	

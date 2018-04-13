@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.homeene.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.homeene.model.User" >
+<mapper namespace="com.homeene.dao.GameMapper" >
+  <resultMap id="BaseResultMap" type="com.homeene.model.Game" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="userid" property="userid" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -17,14 +17,14 @@
     <result column="change_status" property="changeStatus" jdbcType="INTEGER" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user
+    delete from game
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.homeene.model.User" >
+  <insert id="insert" parameterType="com.homeene.model.Game" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user (userid, name, tel, 
+    insert into game (userid, name, tel, 
       mobile, active, create_time,collect,collect_time,question_id,current,money,change_status
       )
     values (#{userid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
@@ -33,8 +33,8 @@
       , #{current,jdbcType=INTEGER}, #{money,jdbcType=FLOAT} , #{changeStatus,jdbcType=INTEGER}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.homeene.model.User" >
-    update user
+  <update id="updateByPrimaryKey" parameterType="com.homeene.model.Game" >
+    update game
     set userid = #{userid,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
@@ -51,26 +51,26 @@
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
-    from user
+    from game
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
-    from user
-    where userid = #{userid,jdbcType=VARCHAR}
+    from game
+    where userid = #{userid,jdbcType=VARCHAR} order by create_time desc limit 1;
   </select>
   <select id="selectLotteryByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
-    from user
-    where userid = #{userid,jdbcType=VARCHAR} and collect=1
+    from game
+    where id = #{id,jdbcType=INTEGER}  and collect=1 
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
-    from user
+    from game
   </select>
   <select id="selectByCollect" resultMap="BaseResultMap" parameterType="java.lang.Integer"  >
     select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
-    from user 
+    from game 
     where collect = #{collect,jdbcType=INTEGER} order by collect_time
   </select>
 </mapper>

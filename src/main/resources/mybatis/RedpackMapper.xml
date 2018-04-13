@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.homeene.dao.RedpackMapper" >
+  <resultMap id="BaseResultMap" type="com.homeene.model.Redpack" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mch_billno" property="mchBillno" jdbcType="VARCHAR" />
+    <result column="mch_id" property="mchId" jdbcType="VARCHAR" />
+    <result column="wxappid" property="wxappid" jdbcType="VARCHAR" />
+    <result column="re_openid" property="reOpenid" jdbcType="VARCHAR" />
+    <result column="total_amount" property="totalAmount" jdbcType="VARCHAR" />
+    <result column="return_code" property="returnCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="mygame_id" property="mygameId" jdbcType="INTEGER" />
+    <result column="share" property="share" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from redpack
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.homeene.model.Redpack" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into redpack (mch_billno, mch_id, wxappid, 
+      re_openid, total_amount,
+      return_code,create_time,status,mygame_id,share)
+    values (#{mchBillno,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{wxappid,jdbcType=VARCHAR}, 
+      #{reOpenid,jdbcType=VARCHAR}, #{totalAmount,jdbcType=VARCHAR},
+      #{returnCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+      #{mygameId,jdbcType=INTEGER}, #{share,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.homeene.model.Redpack" >
+    update redpack
+    set mch_billno = #{mchBillno,jdbcType=VARCHAR},
+      mch_id = #{mchId,jdbcType=VARCHAR},
+      wxappid = #{wxappid,jdbcType=VARCHAR},
+      re_openid = #{reOpenid,jdbcType=VARCHAR},
+      total_amount = #{totalAmount,jdbcType=VARCHAR},
+      return_code = #{returnCode,jdbcType=VARCHAR},
+       create_time = #{createTime,jdbcType=TIMESTAMP},
+       status = #{status,jdbcType=INTEGER},
+      mygame_id = #{mygameId,jdbcType=INTEGER},
+      share = #{share,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, mch_billno, mch_id, wxappid, re_openid, total_amount,return_code,create_time , status,mygame_id,share
+    from redpack
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKeyByString" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, mch_billno, mch_id, wxappid, re_openid, total_amount,return_code,create_time , status,mygame_id,share
+    from redpack
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByOpenIdAndGameId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select id, mch_billno, mch_id, wxappid, re_openid, total_amount,return_code,create_time, status,mygame_id,share
+    from redpack
+    where re_openid = #{openid} and mygame_id=#{mygameId}
+  </select>
+  <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, mch_billno, mch_id, wxappid, re_openid, total_amount,return_code,create_time, status,mygame_id,share
+    from redpack
+    where re_openid = #{openid,jdbcType=VARCHAR} order by create_time desc limit 1
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, mch_billno, mch_id, wxappid, re_openid, total_amount, return_code,create_time, status,mygame_id,share
+    from redpack
+  </select>
+  <select id="getTotalAmount" resultType="java.lang.Integer" >
+     select IFNULL(t.total_amount,0) as total_amount from ( SELECT sum(total_amount) as total_amount from redpack )t
+  </select>
+  <select id="getRedpackAmount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    SELECT count(*) as count  from (SELECT  re_openid from redpack  where mch_billno !=null ORDER BY create_time LIMIT 30) t  where t.re_openid=#{openid,jdbcType=VARCHAR} ;
+  </select>
+</mapper>

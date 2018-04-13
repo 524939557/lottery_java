@@ -9,6 +9,8 @@ public class MyAward {
 	private String userId;
 
 	private Integer total;
+	
+	private Integer gameId;
 
 	public Integer getId() {
 		return id;
@@ -41,5 +43,17 @@ public class MyAward {
 	public void setTotal(Integer total) {
 		this.total = total;
 	}
+
+	
+	public Integer getGameId() {
+		return gameId;
+	}
+
+	
+	public void setGameId(Integer gameId) {
+		this.gameId = gameId;
+	}
+	
+	
 
 }

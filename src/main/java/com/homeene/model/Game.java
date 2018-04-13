@@ -2,7 +2,7 @@ package com.homeene.model;
 
 import java.util.Date;
 
-public class User {
+public class Game {
 
 	private Integer id;
 

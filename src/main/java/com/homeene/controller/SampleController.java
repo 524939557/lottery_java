@@ -23,15 +23,15 @@ import com.homeene.model.MyAward;
 import com.homeene.model.Options;
 import com.homeene.model.Question;
 import com.homeene.model.Times;
-import com.homeene.model.User;
+import com.homeene.model.Game;
 import com.homeene.service.AnswerService;
 import com.homeene.service.AwardService;
 import com.homeene.service.CookieService;
+import com.homeene.service.GameService;
 import com.homeene.service.MyAwardService;
 import com.homeene.service.OptionService;
 import com.homeene.service.QuestionService;
 import com.homeene.service.TimesService;
-import com.homeene.service.UserService;
 
 @RestController
 @RequestMapping(value = "/sample")
@@ -53,7 +53,7 @@ public class SampleController {
 	private MyAwardService myAwardService;
 
 	@Resource
-	private UserService userservice;
+	private GameService gameService;
 
 	@Resource
 	private TimesService timesService;
@@ -70,7 +70,7 @@ public class SampleController {
 	@RequestMapping(value = "/selectOne", method = RequestMethod.GET)
 	public Map<String, Object> selectOne(HttpServletRequest req, HttpServletResponse rsp)
 			throws UnsupportedEncodingException {
-		User u = cookieService.cookieToUser(req);
+		Game u = cookieService.cookieToUser(req);
 		System.out.println("select One" + u.getUserid());
 		if (u != null)
 		{
@@ -99,7 +99,7 @@ public class SampleController {
 		Integer questionId = map.get("questionId");
 		Integer answerId = map.get("answerId");
 		Answer answer = answerService.selectByQuestion(questionId);
-		User u = cookieService.cookieToUser(req);
+		Game u = cookieService.cookieToUser(req);
 		this.updateTimes(u);// 添加次数
 		if (answerId == answer.getAnswerId() || answerId.equals(answer.getAnswerId()))
 		{
@@ -122,7 +122,7 @@ public class SampleController {
 	 */
 	@RequestMapping(value = "/shareCard", method = RequestMethod.GET)
 	public Award shareCard(HttpServletRequest req, HttpServletResponse rsp) throws UnsupportedEncodingException {
-		User u = cookieService.cookieToUser(req);
+		Game u = cookieService.cookieToUser(req);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", u.getUserid());
 		LocalDate date = LocalDate.now();
@@ -141,10 +141,10 @@ public class SampleController {
 		return null;
 	}
 
-	public Award getAward(User u) throws UnsupportedEncodingException {
+	public Award getAward(Game u) throws UnsupportedEncodingException {
 
 		List<Award> awardList = awardService.getAward();
-		List<User> collectList = userservice.selectByCollect(1);
+		List<Game> collectList = gameService.selectByCollect(1);
 		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
 		Award award = null;
 		if (collectList.size() >= 100)
@@ -168,6 +168,7 @@ public class SampleController {
 			myAward = new MyAward();
 			myAward.setAwardId(award.getId());
 			myAward.setUserId(u.getUserid());
+			myAward.setGameId(u.getId());
 			myAward.setTotal(1);
 			myAwardService.insert(myAward);
 		} else
@@ -180,15 +181,10 @@ public class SampleController {
 		{
 			u.setCollect(1);
 			u.setCollectTime(new Date());
-			userservice.update(u);
+			gameService.update(u);
 		}
 		return award;
 	}
-//	@RequestMapping(value = "/test", method = RequestMethod.GET)
-//	public void test() throws UnsupportedEncodingException {
-//		User u=userservice.selectByUserId("0438175833697878");
-//		this.getAward(u);
-//	}
 
 	public Times checkTimes(String userId) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -200,7 +196,7 @@ public class SampleController {
 		return t;
 	}
 
-	public void updateTimes(User u) {
+	public void updateTimes(Game u) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", u.getUserid());
 		LocalDate date = LocalDate.now();
@@ -220,7 +216,7 @@ public class SampleController {
 			timesService.update(times);
 		}
 		u.setCurrent(0);
-		userservice.update(u);
+		gameService.update(u);
 	}
 
 }

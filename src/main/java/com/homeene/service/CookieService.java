@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.homeene.model.PersistentLogins;
-import com.homeene.model.User;
+import com.homeene.model.Game;
 import com.homeene.utils.EncryptionUtil;
 
 @Service
@@ -19,9 +19,9 @@ public class CookieService  {
 	@Resource
 	private PersistentLoginService persistentLoginsServiceImpl;
 	@Resource
-	private UserService userService;
+	private GameService gameService;
 
-	public User cookieToUser(HttpServletRequest request) throws UnsupportedEncodingException {
+	public Game cookieToUser(HttpServletRequest request) throws UnsupportedEncodingException {
 
 		String header=request.getHeader("Authorization");
 		System.out.println("Authorization-------------"+header);
@@ -31,7 +31,7 @@ public class CookieService  {
 			String[] cValues = cookieValue.split(":");
 			if (cValues.length == 2) {
 				String userId = cValues[0]; //
-				return userService.selectByUserId(userId);
+				return gameService.selectByUserId(userId);
 			}
 		}
 		return null;

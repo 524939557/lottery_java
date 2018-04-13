@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.richman.kotlin.dao.AccessTokenMapper" >
-  <resultMap id="BaseResultMap" type="com.richman.kotlin.entity.AccessToken" >
+<mapper namespace="com.homeene.dao.AccessTokenMapper" >
+  <resultMap id="BaseResultMap" type="com.homeene.model.AccessToken" >
     <id column="openid" property="openid" jdbcType="VARCHAR" />
     <result column="access_token" property="access_token" jdbcType="VARCHAR" />
     <result column="expires_in" property="expires_in" jdbcType="VARCHAR" />
@@ -12,13 +12,13 @@
     delete from access_token
     where openid = #{openid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.richman.kotlin.entity.AccessToken" >
+  <insert id="insert" parameterType="com.homeene.model.AccessToken" >
     insert into access_token (openid, access_token, expires_in, 
       refresh_token, scope)
     values (#{openid,jdbcType=VARCHAR}, #{access_token,jdbcType=VARCHAR}, #{expires_in,jdbcType=VARCHAR}, 
       #{refresh_token,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.richman.kotlin.entity.AccessToken" >
+  <update id="updateByPrimaryKey" parameterType="com.homeene.model.AccessToken" >
     update access_token
     set access_token = #{access_token,jdbcType=VARCHAR},
       expires_in = #{expires_in,jdbcType=VARCHAR},

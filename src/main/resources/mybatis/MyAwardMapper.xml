@@ -6,6 +6,7 @@
     <result column="award_id" property="awardId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="game_id" property="gameId" jdbcType="INTEGER" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from my_award
@@ -15,7 +16,7 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into my_award (award_id, user_id, total
+    insert into my_award (award_id, user_id, total,game_id
       )
     values (#{awardId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{total,jdbcType=INTEGER}
       )
@@ -24,21 +25,22 @@
     update my_award
     set award_id = #{awardId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=VARCHAR},
-      total = #{total,jdbcType=INTEGER}
+      total = #{total,jdbcType=INTEGER},
+      game_id=#{gameId,jdbcType=INTEGER)
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, award_id, user_id, total
+    select id, award_id, user_id, total,game_id
     from my_award
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectMyAward" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select id, award_id, user_id, total
+    select id, award_id, user_id, total,game_id
     from my_award
     where user_id = #{user_id,jdbcType=VARCHAR} and  award_id !=22
   </select>
    <select id="selectByAwardId" resultMap="BaseResultMap" parameterType="java.util.Map">
-    select id, award_id, user_id, total
+    select id, award_id, user_id, total,game_id
     from my_award
     where award_id = #{awardId} and user_id=#{userId}
   </select>
@@ -50,7 +52,7 @@
 	where user_id = #{user_id,jdbcType=VARCHAR}
   </select> 
   <select id="selectAll" resultMap="BaseResultMap" >
-    select id, award_id, user_id, total
+    select id, award_id, user_id, total,game_id
     from my_award
   </select>
 </mapper>

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.homeene.common.Constants;
 import com.homeene.dao.PersistentLoginsMapper;
 import com.homeene.model.PersistentLogins;
-import com.homeene.model.User;
+import com.homeene.model.Game;
 import com.homeene.utils.EncryptionUtil;
 
 @Service
@@ -53,7 +53,7 @@ public class PersistentLoginService {
 		return persistentLogins.selectByUserId(userId);
 	}
 
-	public String addCookie(User user) {
+	public String addCookie(Game user) {
 		// 有效期
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.MONTH, 1); // 一个月
@@ -65,7 +65,7 @@ public class PersistentLoginService {
 
 		// sha256加密用户信息
 		String userInfoBySha256 = EncryptionUtil
-				.sha256Hex(user.getUserid() + "_" + user.getMobile() + "_" + timeString + "_" + Constants.GobleToken);
+				.sha256Hex(user.getUserid() + "_"  + timeString + "_" + Constants.GobleToken);
 
 		// UUID值
 		String uuidString = UUID.randomUUID().toString();

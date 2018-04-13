@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.homeene.dao.QuestionMapper;
 import com.homeene.model.Question;
-import com.homeene.model.User;
+import com.homeene.model.Game;
 import com.homeene.utils.PrizeMathRandom;
 
 @Service
@@ -17,13 +17,13 @@ public class QuestionService {
 	private QuestionMapper questionMapper;
 	
 	@Resource
-	private UserService userService;
+	private GameService gameService;
 	
 	public List<Question> selectQuestion(){
 		return questionMapper.selectAll();
 	}
 	
-	public Question selectone(User u) {
+	public Question selectone(Game u) {
 		Question q =new Question();
 		if(u.getQuestionId()!=null&&u.getCurrent()==1) {
 			q= this.selectQuestionById(u.getQuestionId());
@@ -32,7 +32,7 @@ public class QuestionService {
 			q=this.selctQuestion(type);
 			u.setQuestionId(q.getId());
 			u.setCurrent(1);
-			userService.update(u);
+			gameService.update(u);
 		}
 		return q;
 	}

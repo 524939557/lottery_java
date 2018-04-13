@@ -13,9 +13,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import com.homeene.common.Constants;
 import com.homeene.model.PersistentLogins;
-import com.homeene.model.User;
+import com.homeene.model.Game;
+import com.homeene.service.GameService;
 import com.homeene.service.PersistentLoginService;
-import com.homeene.service.UserService;
 import com.homeene.utils.EncryptionUtil;
 
 @Controller
@@ -23,7 +23,7 @@ public class UserInterceptor implements HandlerInterceptor {
 	@Resource
 	private PersistentLoginService persistentLoginsService;
 	@Resource
-	private UserService userService;
+	private GameService gameService;
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -49,7 +49,7 @@ public class UserInterceptor implements HandlerInterceptor {
 
 					if (currentTime.before(savedValidtime))
 					{
-						User u = userService.selectByUserId(userId);
+						Game u = gameService.selectByUserId(userId);
 						if (u != null)
 						{
 							Calendar calendar = Calendar.getInstance();
@@ -60,7 +60,7 @@ public class UserInterceptor implements HandlerInterceptor {
 									+ "-" + calendar.get(Calendar.MINUTE);
 
 							String newToken = EncryptionUtil.sha256Hex(
-									u.getUserid() + "_" + u.getMobile() + "_" + timeString + "_" + Constants.GobleToken);
+									u.getUserid() + "_" +  timeString + "_" + Constants.GobleToken);
 
 							if (savedToken.equals(newToken))
 							{
