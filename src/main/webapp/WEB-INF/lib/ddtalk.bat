@@ -1,0 +1,4 @@
+mvn install:install-file -Dfile=E:\workspace\award\src\main\webapp\WEB-INF\lib\client-sdk.api-1.0.2.jar -DgroupId=com.homeene.ddtalk.api -DartifactId=client-sdk.api -Dversion=1.0.2 -Dpackaging=jar
+mvn install:install-file -Dfile=E:\workspace\award\src\main\webapp\WEB-INF\lib\client-sdk.common-1.0.0-SNAPSHOT.jar -DgroupId=com.homeene.ddtalk.common -DartifactId=client-sdk.common -Dversion=1.0.2 -Dpackaging=jar
+mvn install:install-file -Dfile=E:\workspace\award\src\main\webapp\WEB-INF\lib\client-sdk.core-1.0.0-SNAPSHOT.jar -DgroupId=com.homeene.ddtalk.core -DartifactId=client-sdk.core -Dversion=1.0.2 -Dpackaging=jar
+mvn install:install-file -Dfile=E:\workspace\award\src\main\webapp\WEB-INF\lib\client-sdk.spring-1.0.0-SNAPSHOT.jar -DgroupId=com.homeene.ddtalk.spring -DartifactId=client-sdk.spring -Dversion=1.0.2 -Dpackaging=jar

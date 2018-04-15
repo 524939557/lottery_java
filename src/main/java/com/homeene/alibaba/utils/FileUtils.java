@@ -18,7 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 public class FileUtils {
-	public static final String FILEPATH = "Richman_Data";
+	public static final String FILEPATH = "/usr/local/monopoly-8081/Richman_Data";
 
 	// json写入文件
 	public synchronized static void write2File(Object json, String fileName) {

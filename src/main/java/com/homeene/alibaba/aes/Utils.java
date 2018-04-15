@@ -1,7 +1,5 @@
 package com.homeene.alibaba.aes;
 
-import java.security.MessageDigest;
-import java.util.Arrays;
 import java.util.Random;
 
 /**

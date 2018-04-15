@@ -28,7 +28,7 @@ public class UserInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
-		 String value=request.getHeader("Authorization");
+		 String value=request.getHeader("LTAUTH");
 		 System.out.println("Interceptor Authorization:before "+value+"-----------------");
 		if (value != null)
 		{
@@ -68,7 +68,7 @@ public class UserInterceptor implements HandlerInterceptor {
 								String uuidNewString = UUID.randomUUID().toString();
 								String newCookieValue = EncryptionUtil
 										.base64Encode(u.getUserid() + ":" + uuidNewString);
-								response.setHeader("token", newCookieValue);
+								response.setHeader("LTTOKEN", newCookieValue);
 								System.out.println("Interceptor Authorization:after "+newCookieValue+"-----------------");
 								pLogins.setSeries(uuidNewString);
 								persistentLoginsService.updateByPrimaryKey(pLogins);

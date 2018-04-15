@@ -18,7 +18,7 @@
     </selectKey>
     insert into my_award (award_id, user_id, total,game_id
       )
-    values (#{awardId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{total,jdbcType=INTEGER}
+    values (#{awardId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{total,jdbcType=INTEGER}, #{gameId,jdbcType=INTEGER}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.MyAward" >

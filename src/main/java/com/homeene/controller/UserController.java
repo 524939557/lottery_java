@@ -1,6 +1,7 @@
 package com.homeene.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -43,23 +44,26 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-	public String getUser(@RequestBody Map<String, String> code, HttpServletRequest req, HttpServletResponse rsp)
+	public Map<String, Object> getUser(@RequestBody Map<String, String> code, HttpServletRequest req, HttpServletResponse rsp)
 			throws Exception {
 		Game game=cookieService.cookieToUser(req);
 		PersonInfo pi=new PersonInfo();
 		if(game==null) {
-			System.out.println(code.get("code"));
-			String at_result=AccessTokenService.getAccessToken(code.toString());
+			String code2=code.get("code");
+			System.out.println(code2);
+			String at_result=AccessTokenService.getAccessToken(code2);
 			AccessToken at=new Gson().fromJson(at_result,AccessToken.class);
 			AccessTokenService.insert(at);
-			String person_result=AccessTokenService.getPersonInfoByAccessToken(at.getAccessToken(),at.getOpenid());
-			pi=PersonInfoService.insertAccessPerson(person_result);
+			String globalToken=AuthHelper.getAccessToken();
+			System.out.println("login global token="+globalToken);
+			String personInfo=AccessTokenService.getPersonInfoByGlobalAccessToken(globalToken, at.getOpenid());
+			pi=PersonInfoService.insertPerson(personInfo);
 		}else {
 			String openid = game.getUserid();
 			AccessToken at=AccessTokenService.selectByPrimaryKey(openid);
-			boolean flag=AccessTokenService.checkToken(at.getAccessToken(), openid);
+			boolean flag=AccessTokenService.checkToken(at.getAccess_token(), openid);
 			if(!flag) {
-				String result= AccessTokenService.getRefreshToken(at.getAccessToken());
+				String result= AccessTokenService.getRefreshToken(at.getAccess_token());
 				AccessToken at_new=new Gson().fromJson(result, AccessToken.class);
 				AccessTokenService.updateByPrimaryKey(at_new);
 			}
@@ -76,7 +80,10 @@ public class UserController {
 			gameService.insert(game);
 		}
 		String cookieValue = persistentLoginService.addCookie(game);
-		return cookieValue;
+		Map<String,Object> result =new HashMap();
+		result.put("subscribe", pi.getSubscribe()==1);
+		result.put("token", cookieValue);
+		return result;
 	}
 	
 }

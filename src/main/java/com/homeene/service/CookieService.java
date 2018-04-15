@@ -23,7 +23,7 @@ public class CookieService  {
 
 	public Game cookieToUser(HttpServletRequest request) throws UnsupportedEncodingException {
 
-		String header=request.getHeader("Authorization");
+		String header=request.getHeader("LTAUTH");
 		System.out.println("Authorization-------------"+header);
 		if (header!=null) {
 			String cookieValue = EncryptionUtil.base64Decode(header);

@@ -85,7 +85,12 @@ public class PersonInfoService {
 			pi.setUnionid(jsonObject.getString("unionid"));
 			pi.setGroupid(jsonObject.getInt("groupid"));
 			pi.setTagidList(tagid);
-			updateByPrimaryKey(pi);
+			PersonInfo pi_old=this.selectByPrimaryKey(pi.getOpenid());
+			if(pi_old==null) {
+				insert(pi);
+			}else {
+				updateByPrimaryKey(pi);
+			}
 			return pi;
 		} catch (Exception e)
 		{

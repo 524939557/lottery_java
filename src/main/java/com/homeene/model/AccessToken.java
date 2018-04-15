@@ -3,11 +3,11 @@ package com.homeene.model;
 public class AccessToken {
     private String openid;
 
-    private String accessToken;
+    private String access_token;
 
-    private String expiresIn;
+    private String expires_in;
 
-    private String refreshToken;
+    private String refresh_token;
 
     private String scope;
 
@@ -19,31 +19,32 @@ public class AccessToken {
         this.openid = openid;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
+    public String getAccess_token() {
+		return access_token;
+	}
 
-    public String getExpiresIn() {
-        return expiresIn;
-    }
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
+	}
 
-    public void setExpiresIn(String expiresIn) {
-        this.expiresIn = expiresIn;
-    }
+	public String getExpires_in() {
+		return expires_in;
+	}
 
-    public String getRefreshToken() {
-        return refreshToken;
-    }
+	public void setExpires_in(String expires_in) {
+		this.expires_in = expires_in;
+	}
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
+	public String getRefresh_token() {
+		return refresh_token;
+	}
 
-    public String getScope() {
+	public void setRefresh_token(String refresh_token) {
+		this.refresh_token = refresh_token;
+	}
+
+	public String getScope() {
         return scope;
     }
 

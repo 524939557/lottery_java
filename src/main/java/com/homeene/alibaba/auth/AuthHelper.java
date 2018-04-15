@@ -2,15 +2,18 @@ package com.homeene.alibaba.auth;
 
 import java.text.SimpleDateFormat;
 import java.util.Timer;
+
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSONObject;
-import com.dingtalk.open.client.common.SdkInitException;
-import com.dingtalk.open.client.common.ServiceException;
-import com.dingtalk.open.client.common.ServiceNotExistException;
 import com.homeene.alibaba.utils.FileUtils;
 import com.homeene.common.Constants;
 import com.homeene.service.AccessTokenService;
-
+@Component
 public class AuthHelper {
 
 	// public static String jsapiTicket = null;
@@ -21,8 +24,11 @@ public class AuthHelper {
 	public static long currentTime = 0 + cacheTime + 1;
 	public static long lastTime = 0;
 	public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	@Resource private static AccessTokenService accessTokenService;
-
+	private static AccessTokenService accessTokenService;
+	@PostConstruct  
+    public void init() {  
+		AuthHelper.accessTokenService = new AccessTokenService();  
+    }  
 	/*
 	 * 在此方法中，为了避免频繁获取access_token，
 	 * 在距离上一次获取access_token时间在两个小时之内的情况，
@@ -60,16 +66,10 @@ public class AuthHelper {
 				jsonTicket.put(Constants.GobleToken, jsontemp);
 				FileUtils.write2File(jsonTicket, "jsticket");
 			}
-		} catch (SdkInitException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ServiceNotExistException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		} else {
 			return accessTokenValue.getString("access_token");
 		}
@@ -92,13 +92,7 @@ public class AuthHelper {
 				jsontemp.put("begin_time", curTime);
 				jsonTicket.put(Constants.GobleToken, jsontemp);
 				FileUtils.write2File(jsonTicket, "jsticket");
-			} catch (SdkInitException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ServiceNotExistException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

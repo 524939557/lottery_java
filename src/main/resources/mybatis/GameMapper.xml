@@ -59,7 +59,7 @@
     from game
     where userid = #{userid,jdbcType=VARCHAR} order by create_time desc limit 1;
   </select>
-  <select id="selectLotteryByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectLotteryByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select id, userid, name, tel, mobile, active, create_time, collect, collect_time, question_id,current,money,change_status
     from game
     where id = #{id,jdbcType=INTEGER}  and collect=1 

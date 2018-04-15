@@ -23,7 +23,13 @@ public class AccessTokenService {
 	}
 
 	public int insert(AccessToken record) {
-		return accessTokenMapper.insert(record);
+		AccessToken at=this.selectByPrimaryKey(record.getOpenid());
+		if(at==null) {
+			return accessTokenMapper.insert(record);
+		}else {
+			return accessTokenMapper.updateByPrimaryKey(record);
+		}
+		
 	}
 
 	public AccessToken selectByPrimaryKey(String openid) {
@@ -58,6 +64,7 @@ public class AccessTokenService {
 		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + Constants.APP_ID
 				+ "&secret=" + Constants.AppSecret;
 		String result = HttpUtils.get(url);
+		System.out.println("global accesstoken get = "+result);
 		JSONObject json = new JSONObject(result);
 		return json.getString("access_token");
 	}
