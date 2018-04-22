@@ -10,5 +10,5 @@ response param
 抽红包接口
 url:GET http://test.huabane.com/lottery/lottery/sendRedPack
 request 
-response{
-300}
+response
+{"fundReceived":true,redpackAmount":0}

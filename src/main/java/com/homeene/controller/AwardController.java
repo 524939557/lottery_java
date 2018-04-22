@@ -2,6 +2,7 @@ package com.homeene.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,12 +82,12 @@ public class AwardController {
 	
 
     @GetMapping("/sendRedPack")
-    public Integer sendRedPack(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Map<String, Object> sendRedPack(HttpServletRequest request, HttpServletResponse response) throws Exception{
     	Game u = cookieservice.cookieToUser(request);
     	Integer redpackAmount = (int) (RandomUtils.getRandom() * 100);
         Integer totalAmount=redpackService.getTotalAmount();
         Integer amount = redpackAmount + totalAmount;
-
+        boolean fundReceived=false;
         if(amount > Constants.TotalAmount && redpackAmount < Constants.TotalAmount){
         	redpackAmount= Constants.TotalAmount - redpackAmount;
         }
@@ -121,14 +122,18 @@ public class AwardController {
                     redpackService.insert(redpack);
                     u.setActive(false);
                     gameservice.update(u);
-                    return redpackAmount;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
+        	fundReceived=true;
+        	redpackAmount=0;
         }
-        return null;
+        Map<String,Object> result=new HashMap<>();
+        result.put("fundReceived", fundReceived);
+        result.put("redpackAmount", redpackAmount);
+        return result;
     }
 	
 	/**
