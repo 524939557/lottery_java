@@ -57,6 +57,7 @@ public class UserController {
 			String globalToken=AuthHelper.getAccessToken();
 			System.out.println("login global token="+globalToken);
 			String personInfo=AccessTokenService.getPersonInfoByGlobalAccessToken(globalToken, at.getOpenid());
+			game=gameService.selectByUserId(at.getOpenid());
 			pi=PersonInfoService.insertPerson(personInfo);
 		}else {
 			String openid = game.getUserid();
@@ -71,11 +72,14 @@ public class UserController {
 			String personInfo=AccessTokenService.getPersonInfoByGlobalAccessToken(globalToken, openid);
 			PersonInfoService.insertPerson(personInfo);
 		}
+		
 		if(game==null || game.getActive()==false) {
+			System.out.println(game+"--------insert game login");
 			game = new Game();
 			game.setCreateTime(new Date());
 			game.setName(pi.getNickname());
 			game.setActive(true);//活动的
+			game.setCollect(0);
 			game.setUserid(pi.getOpenid());
 			gameService.insert(game);
 		}

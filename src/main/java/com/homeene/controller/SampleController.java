@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -79,6 +80,10 @@ public class SampleController {
 			{
 				Question q = questionService.selectone(u);
 				List<Options> option = optionService.selectOptionByQuestionId(q.getId());
+				option = option.stream().map(o->{
+								o.setReason(null);
+								return o;
+						}).collect(Collectors.toList());
 				Map<String, Object> map = new HashMap<>();
 				map.put("question", q);
 				map.put("options", option);
