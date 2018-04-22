@@ -6,6 +6,7 @@
     <result column="question_id" jdbcType="INTEGER" property="questionId" />
     <result column="choices" jdbcType="VARCHAR" property="choices" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from options
@@ -15,29 +16,30 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into options (question_id, choices, name
+    insert into options (question_id, choices, name,reason
       )
-    values (#{questionId,jdbcType=INTEGER}, #{choices,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
+    values (#{questionId,jdbcType=INTEGER}, #{choices,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.homeene.model.Options">
     update options
     set question_id = #{questionId,jdbcType=INTEGER},
       choices = #{choices,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR}
+      name = #{name,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, question_id, choices, name
+    select id, question_id, choices, name,reason
     from options
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll"  resultMap="BaseResultMap">
-    select id, question_id, choices, name
+    select id, question_id, choices, name,reason
     from options where question_id=#{id,jdbcType=INTEGER}
   </select>
   <select id="selectByQuestionId"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, question_id, choices, name
+    select id, question_id, choices, name,reason
     from options where question_id=#{id,jdbcType=INTEGER}
   </select>
 </mapper>

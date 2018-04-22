@@ -20,8 +20,8 @@ public class MyWebAppConfigure extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// TODO Auto-generated method stub
-//		registry.addInterceptor(userInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/*");
-//		super.addInterceptors(registry);
+		registry.addInterceptor(userInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/*");
+		super.addInterceptors(registry);
 		
 	}
 

@@ -8,6 +8,8 @@ public class Options {
     private String choices;
 
     private String name;
+    
+    private String reason;
 
     public Integer getId() {
         return id;
@@ -26,6 +28,14 @@ public class Options {
     }
 
     
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
 	public String getChoices() {
 		return choices;
 	}
@@ -41,4 +51,5 @@ public class Options {
     public void setName(String name) {
         this.name = name;
     }
+    
 }
