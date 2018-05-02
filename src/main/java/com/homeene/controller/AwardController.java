@@ -1,6 +1,8 @@
 package com.homeene.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,7 @@ import com.homeene.service.GameService;
 import com.homeene.service.MyAwardService;
 import com.homeene.service.RedpackService;
 import com.homeene.utils.ClientCustomSSL;
+import com.homeene.utils.DateUtils;
 import com.homeene.utils.Dom4jUtils;
 import com.homeene.utils.HttpUtils;
 import com.homeene.utils.MsgDigest;
@@ -91,7 +94,12 @@ public class AwardController {
         if(amount > Constants.TotalAmount && redpackAmount < Constants.TotalAmount){
         	redpackAmount= Constants.TotalAmount - redpackAmount;
         }
-        if (u.getCollect() == 1 && u.getActive() == true ) {
+        Redpack red=redpackService.selectByOpenId(u.getUserid());
+        boolean checkday=false;
+        if(red!=null) {
+        	checkday=DateUtils.checkDay(red.getCreateTime());
+        }
+        if (u.getCollect() == 1 && u.getActive() == true && checkday) {
             String url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
             String nonce_str = MsgDigest.getRandomStringByLength(8);
             String client_ip = HttpUtils.getClientIP(request);

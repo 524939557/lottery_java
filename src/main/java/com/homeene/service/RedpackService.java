@@ -20,5 +20,9 @@ public class RedpackService {
 		// TODO Auto-generated method stub
 		redpackMapper.insert(redpack);
 	}
+	
+	public Redpack selectByOpenId(String openid) {
+		return redpackMapper.selectByOpenId(openid);
+	}
 
 }

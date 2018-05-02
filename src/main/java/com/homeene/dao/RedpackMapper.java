@@ -19,4 +19,6 @@ public interface RedpackMapper {
     int updateByPrimaryKey(Redpack record);
 
 	Integer getTotalAmount();
+
+	Redpack selectByOpenId(String openid);
 }
