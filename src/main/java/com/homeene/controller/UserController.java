@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,14 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.homeene.alibaba.auth.AuthHelper;
+import com.homeene.common.Constants;
 import com.homeene.model.AccessToken;
 import com.homeene.model.PersonInfo;
 import com.homeene.model.Game;
-import com.homeene.service.AccessTokenService;
+import com.homeene.service.AccessTokenService; 
 import com.homeene.service.CookieService;
 import com.homeene.service.GameService;
 import com.homeene.service.PersistentLoginService;
 import com.homeene.service.PersonInfoService;
+import com.riversoft.weixin.common.util.URLEncoder;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -89,5 +92,17 @@ public class UserController {
 		result.put("token", cookieValue);
 		return result;
 	}
-	
+	@GetMapping(value = "/wxLogin")
+	public String wxLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String code = request.getParameter("code");
+		if(code==null) {
+			// 这个url的域名必须要进行再公众号中进行注册验证，这个地址是成功后的回调地址
+			String backUrl = "http://game.homeene.com/lottery/api/user/wxLogin";
+			// 第一步：用户同意授权，获取code
+			String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Constants.APP_ID + "&redirect_uri=" + URLEncoder.encode(backUrl) + "&response_type=code" + "&scope=snsapi_base"
+					+ "&state=STATE#wechat_redirect";
+			response.sendRedirect(url);// 必须重定向，否则不能成功
+		}
+		return code;
+	}
 }

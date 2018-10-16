@@ -82,7 +82,6 @@ public class PersonInfoService {
 			pi.setHeadimgurl(jsonObject.getString("headimgurl"));
 			pi.setSubscribeTime(jsonObject.getLong("subscribe_time"));
 			pi.setRemark(jsonObject.getString("remark"));
-			pi.setUnionid(jsonObject.getString("unionid"));
 			pi.setGroupid(jsonObject.getInt("groupid"));
 			pi.setTagidList(tagid);
 			PersonInfo pi_old=this.selectByPrimaryKey(pi.getOpenid());

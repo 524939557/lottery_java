@@ -203,7 +203,9 @@ public class SampleController {
 		map.put("date", date.toString());
 		System.out.println("check times" + map.toString());
 		Times t = timesService.selectByCreateTime(map);
-		t.setTimes(1);
+		if(t != null) {
+			t.setTimes(1);
+		}
 		return t;
 	}
 
