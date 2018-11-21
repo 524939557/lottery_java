@@ -101,11 +101,14 @@ public class SampleController {
 	@RequestMapping(value = "/checkAnswer", method = RequestMethod.POST, produces = "application/json")
 	public Map<String,Object> checkAnswer(@RequestBody Map<String, Integer> map, HttpServletRequest req, HttpServletResponse rsp)
 			throws UnsupportedEncodingException {
-		Integer questionId = map.get("questionId");
-		Integer answerId = map.get("answerId");
+//		Integer questionId = map.get("questionId");
+//		Integer answerId = map.get("answerId");
+		Integer questionId = 107;
+		Integer answerId = 424;
 		Answer answer = answerService.selectByQuestion(questionId);
 		List<Options> options=optionService.selectOptionByQuestionId(questionId);
-		Game u = cookieService.cookieToUser(req);
+//		Game u = cookieService.cookieToUser(req);
+		Game u = gameService.selectByUserId("okmDkvrnk5PfiSBwRPO1vRM0_IyM");
 		this.updateTimes(u);// 添加次数
 		Map<String,Object> result=new HashMap();
 		if (answerId == answer.getAnswerId() || answerId.equals(answer.getAnswerId()))
@@ -154,16 +157,16 @@ public class SampleController {
 	public Award getAward(Game u) throws UnsupportedEncodingException {
 
 		List<Award> awardList = awardService.getAward();
-		List<Game> collectList = gameService.selectByCollect(1);
+//		List<Game> collectList = gameService.selectByCollect(1);
 		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
 		Award award = null;
-		if (collectList.size() >= 100)
-		{
-			award = awardService.lotterOver(awardList, myward);
-		} else
-		{
-			award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
-		}
+//		if (collectList.size() >= 100)
+//		{
+//			award = awardService.lotterOver(awardList, myward);
+//		} else
+//		{
+		award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
+//		}
 
 		System.out.println("我抽到的卡片" + award.getId());
 		award = awardService.selectById(award.getId());
@@ -181,9 +184,10 @@ public class SampleController {
 			myAward.setGameId(u.getId());
 			myAward.setTotal(1);
 			myAwardService.insert(myAward);
-		} else
-		{
+		} else {
+		
 			myAward.setTotal(myAward.getTotal() + 1);
+			myAward.setAwardId(award.getId());
 			myAwardService.update(myAward);
 		}
 		Integer total = myAwardService.selectMyCollect(u.getUserid());// 是否集齐21张
