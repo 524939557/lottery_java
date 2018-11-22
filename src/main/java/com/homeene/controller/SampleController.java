@@ -101,14 +101,11 @@ public class SampleController {
 	@RequestMapping(value = "/checkAnswer", method = RequestMethod.POST, produces = "application/json")
 	public Map<String,Object> checkAnswer(@RequestBody Map<String, Integer> map, HttpServletRequest req, HttpServletResponse rsp)
 			throws UnsupportedEncodingException {
-//		Integer questionId = map.get("questionId");
-//		Integer answerId = map.get("answerId");
-		Integer questionId = 107;
-		Integer answerId = 424;
+		Integer questionId = map.get("questionId");
+		Integer answerId = map.get("answerId");
 		Answer answer = answerService.selectByQuestion(questionId);
 		List<Options> options=optionService.selectOptionByQuestionId(questionId);
-//		Game u = cookieService.cookieToUser(req);
-		Game u = gameService.selectByUserId("okmDkvrnk5PfiSBwRPO1vRM0_IyM");
+		Game u = cookieService.cookieToUser(req);
 		this.updateTimes(u);// 添加次数
 		Map<String,Object> result=new HashMap();
 		if (answerId == answer.getAnswerId() || answerId.equals(answer.getAnswerId()))
