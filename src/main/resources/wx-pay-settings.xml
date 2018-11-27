@@ -2,7 +2,7 @@
     <appId>wx8d97d92be9ddd3e3</appId>
     <mchId>1504533701</mchId>
     <key>huayangnianmeiyijiahomeene123456</key>
-    <certPath>G:\美易家项目\物业游戏\物业游戏证书\cert\apiclient_cert.p12</certPath>
-    <!-- <certPath>/usr/local/game-program/cert/apiclient_cert.p12</certPath> -->
+    <!-- <certPath>G:\美易家项目\物业游戏\物业游戏证书\cert\apiclient_cert.p12</certPath>-->
+    <certPath>/usr/local/game-program/cert/apiclient_cert.p12</certPath> 
     <certPassword>1504533701</certPassword>
 </PaySetting>

@@ -16,8 +16,8 @@ public class MyAwardService {
 	@Resource
 	private MyAwardMapper myAwardMapper;
 	
-	public List<MyAward> selectMyAward(String userId){
-		return myAwardMapper.selectMyAward(userId);
+	public List<MyAward> selectMyAward(HashMap<String, Object> map){
+		return myAwardMapper.selectMyAward(map);
 	}
 	
 	public int insert(MyAward myAward) {
@@ -32,8 +32,8 @@ public class MyAwardService {
 		return myAwardMapper.updateByPrimaryKey(myAward);
 	}
 
-	public int selectMyCollect(String userid) {
+	public int selectMyCollect(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return myAwardMapper.selectMyCollect(userid);
+		return myAwardMapper.selectMyCollect(map);
 	}
 }

@@ -64,7 +64,10 @@ public class AwardController {
 	@RequestMapping(value = "/myCard", method = RequestMethod.GET)
 	public List<MyAward> selectMyAward(HttpServletRequest req) throws UnsupportedEncodingException {
 		Game u=cookieservice.cookieToUser(req);
-		List<MyAward> result=myAwardService.selectMyAward(u.getUserid());
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("userId", u.getUserid());
+		map.put("gameId",u.getId());
+		List<MyAward> result=myAwardService.selectMyAward(map);
 		result.forEach(ma->System.out.println(ma.getAwardId()+":"+ma.getTotal()));
 		return result;
 	}
@@ -98,7 +101,7 @@ public class AwardController {
         	redpackAmount= Constants.TotalAmount - redpackAmount;
         }
         Redpack red=redpackService.selectByOpenId(u.getUserid());
-        boolean checkday=false;
+        boolean checkday = true;
         if(red!=null) {
         	checkday=DateUtils.checkDay(red.getCreateTime());
         }
@@ -127,7 +130,7 @@ public class AwardController {
 			redpack.setTotalAmount(redPackResponse.getAmount());
 			redpack.setReturnCode(redPackResponse.getResultCode());
 			redpack.setStatus(1);
-            redpack.setMyGameId(u.getId());
+            redpack.setMygameId(u.getId());
             redpackService.insert(redpack);
             u.setActive(false);
             gameservice.update(u);

@@ -154,24 +154,21 @@ public class SampleController {
 	public Award getAward(Game u) throws UnsupportedEncodingException {
 
 		List<Award> awardList = awardService.getAward();
-//		List<Game> collectList = gameService.selectByCollect(1);
-		List<MyAward> myward = myAwardService.selectMyAward(u.getUserid());
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("userId", u.getUserid());
+		map.put("gameId",u.getId());
+		
+		List<MyAward> myward = myAwardService.selectMyAward(map);
 		Award award = null;
-//		if (collectList.size() >= 100)
-//		{
-//			award = awardService.lotterOver(awardList, myward);
-//		} else
-//		{
 		award = awardService.lotter(awardList, myward);// 将已抽到的卡片概率分给其它，抽取一张卡片
-//		}
-
 		System.out.println("我抽到的卡片" + award.getId());
 		award = awardService.selectById(award.getId());
 		award.setIssue(award.getIssue() + 1);
 		awardService.updateAward(award);// 修改卡片发放次数
-		HashMap<String, Object> map = new HashMap<>();
+		
 		map.put("awardId", award.getId());
-		map.put("userId", u.getUserid());
+		
 		MyAward myAward = myAwardService.selectMyAwardById(map);// 查看该卡是否拥有
 		if (myAward == null)
 		{
@@ -187,7 +184,8 @@ public class SampleController {
 			myAward.setAwardId(award.getId());
 			myAwardService.update(myAward);
 		}
-		Integer total = myAwardService.selectMyCollect(u.getUserid());// 是否集齐21张
+		
+		Integer total = myAwardService.selectMyCollect(map);// 是否集齐21张
 		if (total == 21&&u.getCollect()!=1)
 		{
 			u.setCollect(1);

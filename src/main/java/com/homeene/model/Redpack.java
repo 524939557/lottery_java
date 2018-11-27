@@ -23,7 +23,7 @@ public class Redpack {
     
     private Integer status;
     
-    private Integer myGameId;
+    private Integer mygameId;
     
     private Integer share;
 
@@ -111,17 +111,14 @@ public class Redpack {
 		this.status = status;
 	}
 
-	
-	public Integer getMyGameId() {
-		return myGameId;
+	public Integer getMygameId() {
+		return mygameId;
 	}
 
-	
-	public void setMyGameId(Integer myGameId) {
-		this.myGameId = myGameId;
+	public void setMygameId(Integer mygameId) {
+		this.mygameId = mygameId;
 	}
 
-	
 	public Integer getShare() {
 		return share;
 	}

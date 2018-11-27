@@ -19,9 +19,9 @@ public interface MyAwardMapper {
 
     int updateByPrimaryKey(MyAward record);
 
-	List<MyAward> selectMyAward(String userId);
+	List<MyAward> selectMyAward(HashMap<String, Object> map);
 	
 	MyAward selectByAwardId(HashMap<String, Object> map);
 	
-	int selectMyCollect(String userId);
+	int selectMyCollect(HashMap<String, Object> map);
 }
